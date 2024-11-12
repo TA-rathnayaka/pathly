@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:pathly/constants/constants.dart';
 import 'package:pathly/components/hexagon_button.dart';
-
+import 'package:pathly/constants/constants.dart';
+import 'package:pathly/screens/tech_paths_screen.dart';
 
 class LoginScreen extends StatelessWidget {
   static final String id = '/login_screen';
@@ -17,7 +17,8 @@ class LoginScreen extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Icon(Icons.sports_basketball, color: Colors.white, size: 40), // Logo/Icon
+                Icon(Icons.sports_basketball,
+                    color: Colors.white, size: 40), // Logo/Icon
                 SizedBox(height: 10),
                 Text(
                   'Log in to your PATHLY id',
@@ -53,15 +54,24 @@ class LoginScreen extends StatelessWidget {
                 child: Column(
                   children: [
                     TextField(
-                      decoration: kTextFieldDecoration.copyWith(hintText: "Email"),
+                      decoration:
+                          kTextFieldDecoration.copyWith(hintText: "Email"),
                     ),
                     SizedBox(height: 10),
                     TextField(
-                      decoration: kTextFieldDecoration.copyWith(hintText: "Password"),
+                      decoration:
+                          kTextFieldDecoration.copyWith(hintText: "Password"),
                       obscureText: true,
                     ),
                     SizedBox(height: 20),
-                    HexagonButton(onPressed: (){}, text: "Login", buttonColor: kTerTertiary, textStyle: kTertiaryButtonTextStyle,),
+                    HexagonButton(
+                      onPressed: () {
+                        Navigator.pushNamed(context, TechPathsScreen.id);
+                      },
+                      text: "Login",
+                      buttonColor: kTerTertiary,
+                      textStyle: kTertiaryButtonTextStyle,
+                    ),
                     SizedBox(height: 20),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
