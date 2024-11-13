@@ -39,13 +39,19 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-
+  provider: ^6.0.5 # Latest stable version at the time of writing
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
   # activated in the `analysis_options.yaml` file located at the root of your
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^3.0.0
+
+  # Add the confetti package
+  confetti: ^0.7.0  # Check for the latest version on pub.dev
+
+  # Add the percent_indicator package
+  percent_indicator: ^4.2.2  # Check for the latest version on pub.dev
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
