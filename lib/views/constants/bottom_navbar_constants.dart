@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pathly/constants/constants.dart';
+import 'package:pathly/views/constants/constants.dart';
 
 
 const kBackgroundColorBottomNavbar = Colors.white;

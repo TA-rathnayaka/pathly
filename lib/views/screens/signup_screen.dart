@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:pathly/constants/constants.dart';
-import 'package:pathly/components/hexagon_button.dart';
+import 'package:pathly/views/components/hexagon_button.dart';
+import 'package:pathly/views/constants/constants.dart';
 
-
-class LoginScreen extends StatelessWidget {
-  static final String id = '/login_screen';
+class SignUpScreen extends StatelessWidget {
+  static final String id = '/sign_up_screen';
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,7 +19,7 @@ class LoginScreen extends StatelessWidget {
                 Icon(Icons.sports_basketball, color: Colors.white, size: 40), // Logo/Icon
                 SizedBox(height: 10),
                 Text(
-                  'Log in to your PATHLY id',
+                  'Create your PATHLY id',
                   style: TextStyle(
                     fontSize: 26,
                     color: Colors.white,
@@ -29,7 +28,7 @@ class LoginScreen extends StatelessWidget {
                 ),
                 SizedBox(height: 8),
                 Text(
-                  'Access your news, game updates, and favorite teams',
+                  'Get news, game updates, highlights, and more info on your favorite teams',
                   style: TextStyle(
                     fontSize: 14,
                     color: Colors.white,
@@ -53,6 +52,14 @@ class LoginScreen extends StatelessWidget {
                 child: Column(
                   children: [
                     TextField(
+                      decoration: kTextFieldDecoration.copyWith(hintText: "First Name"),
+                    ),
+                    SizedBox(height: 10),
+                    TextField(
+                      decoration: kTextFieldDecoration.copyWith(hintText: "Second Name"),
+                    ),
+                    SizedBox(height: 10),
+                    TextField(
                       decoration: kTextFieldDecoration.copyWith(hintText: "Email"),
                     ),
                     SizedBox(height: 10),
@@ -60,26 +67,34 @@ class LoginScreen extends StatelessWidget {
                       decoration: kTextFieldDecoration.copyWith(hintText: "Password"),
                       obscureText: true,
                     ),
-                    SizedBox(height: 20),
-                    HexagonButton(onPressed: (){}, text: "Login", buttonColor: kTerTertiary, textStyle: kTertiaryButtonTextStyle,),
-                    SizedBox(height: 20),
+                    SizedBox(height: 10),
+                    // Checkbox and Terms
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text('Don’t have an account? '),
-                        TextButton(
-                          onPressed: () {
-                            // Navigate to Sign-up Screen
-                          },
-                          child: Text(
-                            'Sign up',
-                            style: TextStyle(
-                              color: Colors.blue,
+                        Checkbox(value: false, onChanged: (bool? value) {}),
+                        Text('I agree to the '),
+                        Text(
+                          'Terms',
+                          style: TextStyle(
                               decoration: TextDecoration.underline,
-                            ),
-                          ),
+                              color: Colors.blue),
+                        ),
+                        Text(' and '),
+                        Text(
+                          'Privacy Policy',
+                          style: TextStyle(
+                              decoration: TextDecoration.underline,
+                              color: Colors.blue),
                         ),
                       ],
+                    ),
+                    SizedBox(height: 20),
+                    HexagonButton(onPressed: (){}, text: "Sign Up", buttonColor: kTerTertiary, textStyle: kTertiaryButtonTextStyle,),
+                    SizedBox(height: 20),
+                    Text(
+                      'By agreeing to the above terms, you are consenting that your personal information will be collected, stored, and processed...',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(fontSize: 12, color: Colors.grey),
                     ),
                   ],
                 ),

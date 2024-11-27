@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pathly/constants/hexagon_button_constants.dart';
+import 'package:pathly/views/constants/hexagon_button_constants.dart';
 
 
 // PrimaryButton widget

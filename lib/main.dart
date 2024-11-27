@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:pathly/screens/login_screen.dart';
-import 'package:pathly/screens/signup_screen.dart';
-import 'package:pathly/screens/startup_screen.dart';
+import 'package:pathly/views/screens/_all.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:pathly/config/app_routes.dart';
+import 'package:provider/provider.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(PathlyApp());
 }
 
@@ -12,11 +15,7 @@ class PathlyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      routes: {
-        StartupScreen.id: (context) => StartupScreen(),
-        LoginScreen.id: (context) => LoginScreen(),
-        SignUpScreen.id: (context) => SignUpScreen(),
-      },
+      routes: routes,
     );
   }
 }
