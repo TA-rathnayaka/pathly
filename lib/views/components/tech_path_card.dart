@@ -20,76 +20,77 @@ class TechPathCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+
+    // Set colors based on theme
+    final textColor = isDarkMode ? Colors.white : Colors.black;
+    final subtitleColor = isDarkMode ? Colors.white70 : Colors.black54;
+    final backgroundColor = isDarkMode ? Color(0xFF2A2A2A) : Colors.white;
+    final borderColor = isDarkMode ? color.withOpacity(0.3) : color.withOpacity(0.1);
+
     return GestureDetector(
       onTap: onTap,
-      child: Container(
-        decoration: BoxDecoration(
-          color: Color(0xFF2A2A2A),
-          borderRadius: BorderRadius.circular(20),
-          border: Border.all(
-            color: color.withOpacity(0.3),
-            width: 2,
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(15), // Rounded corners like SettingsItem
+        child: ListTile(
+          contentPadding: EdgeInsets.symmetric(vertical: 10, horizontal: 16),
+          tileColor: backgroundColor, // Background color based on theme
+          leading: Container(
+            padding: EdgeInsets.all(8),
+            decoration: BoxDecoration(
+              color: color.withOpacity(0.1), // Light background behind icon
+              shape: BoxShape.circle,
+            ),
+            child: Icon(
+              icon,
+              color: color,
+              size: 32,
+            ),
           ),
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Container(
-              padding: EdgeInsets.all(16),
-              decoration: BoxDecoration(
-                color: color.withOpacity(0.1),
-                shape: BoxShape.circle,
-              ),
-              child: Icon(
-                icon,
-                color: color,
-                size: 32,
-              ),
+          title: Text(
+            name,
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 16,
+              color: textColor, // Title color based on theme
             ),
-            SizedBox(height: 16),
-            Text(
-              name,
-              style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-                color: Colors.white,
-              ),
-              textAlign: TextAlign.center,
+            overflow: TextOverflow.ellipsis,
+            maxLines: 1,
+          ),
+          subtitle: Text(
+            description,
+            style: TextStyle(
+              fontSize: 12,
+              color: subtitleColor, // Subtitle color based on theme
             ),
-            SizedBox(height: 8),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 12),
-              child: Text(
-                description,
-                style: TextStyle(
-                  fontSize: 12,
-                  color: Colors.grey[400],
-                ),
-                textAlign: TextAlign.center,
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-              ),
-            ),
-            SizedBox(height: 16),
-            Container(
-              margin: EdgeInsets.symmetric(horizontal: 16),
-              height: 4,
-              decoration: BoxDecoration(
-                color: Color(0xFF3A3A3A),
-                borderRadius: BorderRadius.circular(2),
-              ),
-              child: FractionallySizedBox(
-                alignment: Alignment.centerLeft,
-                widthFactor: progress,
-                child: Container(
+            overflow: TextOverflow.ellipsis,
+            maxLines: 2,
+          ),
+          trailing: Container(
+            padding: EdgeInsets.symmetric(vertical: 8),
+            child: Column(
+              children: [
+                Container(
+                  width: 4,
+                  height: 4,
                   decoration: BoxDecoration(
-                    color: color,
+                    color: isDarkMode ? Colors.grey[600] : Colors.grey[300], // Progress bar background
                     borderRadius: BorderRadius.circular(2),
                   ),
+                  child: FractionallySizedBox(
+                    alignment: Alignment.centerLeft,
+                    widthFactor: progress,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: color, // Progress color
+                        borderRadius: BorderRadius.circular(2),
+                      ),
+                    ),
+                  ),
                 ),
-              ),
+              ],
             ),
-          ],
+          ),
         ),
       ),
     );

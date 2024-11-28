@@ -9,6 +9,7 @@ class CreatePathScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final pathState = Provider.of<PathProvider>(context);
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
 
     return Scaffold(
       appBar: AppBar(
@@ -25,7 +26,20 @@ class CreatePathScreen extends StatelessWidget {
                   controller: pathState.pathNameController,
                   decoration: InputDecoration(
                     labelText: 'Path Name',
-                    border: OutlineInputBorder(),
+                    labelStyle: TextStyle(color: isDarkMode ? Colors.white : Colors.black),
+                    filled: true,
+                    fillColor: isDarkMode
+                        ? Colors.grey[800]!.withOpacity(0.85) // Darker background in dark mode
+                        : Colors.grey[200]!.withOpacity(0.85), // Lighter background in light mode
+                    hintText: 'Enter Path Name',
+                    hintStyle: TextStyle(
+                      color: isDarkMode ? Colors.white60 : Colors.black45, // Lighter hint text in dark mode
+                    ),
+
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12.0),
+                      borderSide: BorderSide.none, // No border on focus
+                    ),
                   ),
                   validator: (value) {
                     if (value == null || value.isEmpty) {

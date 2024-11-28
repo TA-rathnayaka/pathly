@@ -30,7 +30,7 @@ class PathlyApp extends StatelessWidget {
             brightness: isDarkMode ? Brightness.dark : Brightness.light,
             colorScheme: ColorScheme(
               brightness: isDarkMode ? Brightness.dark : Brightness.light,
-              primary: Colors.blue,  // Primary color can be updated as per requirements
+              primary: Colors.black54,  // Primary color can be updated as per requirements
               onPrimary: Colors.white,
               secondary: isDarkMode ? AppColors.darkAccent : AppColors.lightAccent,
               onSecondary: Colors.white,
@@ -67,7 +67,7 @@ class PathlyApp extends StatelessWidget {
                   ),
                 ),
               ),
-            
+
             routes: routes,
           );
         },

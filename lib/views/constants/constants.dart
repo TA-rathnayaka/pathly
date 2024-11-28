@@ -6,7 +6,7 @@ const double kButtonRadius = 10.0;
 const double kAppBarTitleSpacing = 8.0;
 
 // Colors
-const kPrimaryColor = Color(0xFFFF5050);
+const kPrimaryColor = Colors.black54;
 const kSecondaryColor = Color(0xFFF3F3F3);
 const kTerTertiary = Colors.black;
 

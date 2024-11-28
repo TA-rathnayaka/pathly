@@ -9,6 +9,11 @@ class AppColors {
   static const Color lightCard = Color(0xffeef1f3);
   static const Color darkCard = Color(0xFF444444);
   static const Color darkGrey = Color(0xFF444444);
+
+  static const Color lightText = Colors.black;
+  static const Color darkText = Colors.white;
+  static const Color lightSubtitle = Colors.black54;
+  static const Color darkSubtitle = Colors.white70;
 }
 
 // Define text styles for consistent typography

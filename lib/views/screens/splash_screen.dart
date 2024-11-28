@@ -29,7 +29,7 @@ class SplashScreen extends StatelessWidget {
             child: Text(
               "Get Started",
               style: TextStyle(
-                color: Color(0xffE1F5FF),
+                color: Colors.white,
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
               ),
@@ -53,9 +53,9 @@ class SplashScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Text(
-                "World's Best",
+                "Learn from the Best",
                 style: TextStyle(
-                  color: Color(0xffE1F5FF),
+                  color: Colors.white,
                   fontSize: 18,
                   letterSpacing: 0.9,
                   fontWeight: FontWeight.bold,
@@ -72,15 +72,7 @@ class SplashScreen extends StatelessWidget {
                 ),
               ),
               SizedBox(height: 16),
-              Text(
-                "Anytime, Anywhere, Easy to Learn",
-                style: TextStyle(
-                  color: Color(0xffE1F5FF),
-                  fontSize: 18,
-                  letterSpacing: 1.9,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
+
             ],
           ),
         ),
