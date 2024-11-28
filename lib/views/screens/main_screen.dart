@@ -1,17 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:pathly/views/screens/_all.dart';
 import 'package:pathly/views/components/bottom_navbar.dart';
+import 'package:pathly/views/screens/TechPathsScreen.dart';
 import 'package:pathly/views/screens/dashboard.dart';
-import 'package:pathly/views/screens/tech_paths_screen.dart';
 import 'package:pathly/providers/navigator_provider.dart';
 import 'package:provider/provider.dart';
+
+
+
 
 class MainScreen extends StatelessWidget {
   static String id = '/main-screen';
 
   final List<Widget> _pages = [
     Dashboard(),
-    TechPathsScreen(),
+    TechPathScreen(),
     Dashboard(),
     Dashboard(),
   ];
@@ -36,3 +39,7 @@ class MainScreen extends StatelessWidget {
     );
   }
 }
+
+
+
+

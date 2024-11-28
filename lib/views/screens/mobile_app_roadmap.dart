@@ -1,45 +1,38 @@
-import 'dart:math';
-import 'package:confetti/confetti.dart';
+
 import 'package:flutter/material.dart';
 import 'package:pathly/views/components/step.dart';
 import 'package:pathly/views/components/roadmap.dart';
-import 'package:percent_indicator/circular_percent_indicator.dart';
 
+class MobileAppRoadmapScreen extends StatelessWidget {
+  static const String id = '/mobile_app_roadmap_screen';
 
-
-
-
-
-class FrontendRoadmapScreen extends StatelessWidget {
-  static const String id = '/frontend_roadmap_screen';
   final List<Map<String, dynamic>> roadmapStages = [
     {
-      'title': 'HTML & CSS Basics',
-      'description': 'Learn HTML and CSS to structure and style webpages.',
-      'progress': 0.5,
-      'color': Color(0xFF9FE870),
-      'icon': Icons.code,
+      'title': 'Flutter Basics',
+      'description': 'Learn the fundamentals of Flutter and Dart.',
+      'progress': 0.3,
+      'color': Color(0xFF00BFAE),
+      'icon': Icons.flutter_dash,
       'completed': false,
     },
     {
-      'title': 'JavaScript Essentials',
-      'description': 'Learn JavaScript to add interactivity.',
-      'progress': 0.2,
-      'color': Color(0xFF70E8E8),
-      'icon': Icons.javascript,
+      'title': 'Building UIs in Flutter',
+      'description': 'Learn how to design beautiful UIs with Flutter.',
+      'progress': 0.4,
+      'color': Color(0xFF0288D1),
+      'icon': Icons.phone_android,
       'completed': false,
     },
+    // Add more mobile app stages as needed
   ];
-
-
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color(0xFF1A1A1A),
       body: RoadmapWidget(
-        title: 'Frontend Development Roadmap',
-        description: 'Master the basics of frontend development step-by-step.',
+        title: 'Mobile App Development Roadmap',
+        description: 'Master mobile app development with Flutter and Dart.',
         totalXP: 0,
         currentLevel: 1,
         steps: roadmapStages.map((stage) {
