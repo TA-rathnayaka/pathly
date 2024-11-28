@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:pathly/views/constants/constants.dart';
-import 'package:pathly/views/components/hexagon_button.dart';
-import 'package:pathly/views/screens/login_screen.dart';
-import 'package:pathly/views/screens/signup_screen.dart';
+import 'package:pathly/components/hexagon_button.dart';
+import 'package:pathly/constants/constants.dart';
+import 'package:pathly/screens/auth/login_screen.dart';
+import 'package:pathly/screens/auth/signup_screen.dart';
 
 class StartupScreen extends StatelessWidget {
-  static final String id = '/fda';
+  static final String id = '/';
 
   @override
   Widget build(BuildContext context) {
@@ -88,7 +88,7 @@ class StartupScreen extends StatelessWidget {
                   SizedBox(height: 16),
                   HexagonButton(
                     onPressed: () {
-                      Navigator.pushNamed(context, SignUpScreen.id);
+                      Navigator.pushNamed(context, SignupScreen.id);
                     },
                     text: "Create Account".toUpperCase(),
                     buttonColor: kSecondaryColor,
