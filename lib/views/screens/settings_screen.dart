@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:pathly/providers/settings_provider.dart'; // Import your SettingsProvider
+import 'package:provider/provider.dart'; // Import provider package
 import 'package:pathly/views/components/settings_group.dart';
 import 'package:pathly/views/components/settings_item.dart';
 import 'package:pathly/views/components/icon_style.dart';
@@ -6,8 +8,11 @@ import 'package:pathly/views/components/simple_user_card.dart';
 
 class SettingsScreen extends StatelessWidget {
   static final String id = '/settings_screen';
+
   @override
   Widget build(BuildContext context) {
+    final settingsProvider = context.watch<SettingsProvider>();
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Settings'),
@@ -46,6 +51,7 @@ class SettingsScreen extends StatelessWidget {
                   ),
                   onTap: () {
                     print('Language settings tapped');
+                    // Handle language change here
                   },
                 ),
                 SettingsItem(
@@ -57,8 +63,9 @@ class SettingsScreen extends StatelessWidget {
                     iconsColor: Colors.white,
                   ),
                   trailing: Switch(
-                    value: true,
+                    value: settingsProvider.isDarkMode,
                     onChanged: (bool value) {
+                      settingsProvider.toggleDarkMode(value);
                       print('Dark Mode toggled');
                     },
                   ),
@@ -108,9 +115,10 @@ class SettingsScreen extends StatelessWidget {
                     iconsColor: Colors.white,
                   ),
                   trailing: Switch(
-                    value: false,
+                    value: settingsProvider.isPushNotificationsEnabled,
                     onChanged: (bool value) {
-                      print('Notifications toggled');
+                      settingsProvider.togglePushNotifications(value);
+                      print('Push Notifications toggled');
                     },
                   ),
                 ),
@@ -123,16 +131,15 @@ class SettingsScreen extends StatelessWidget {
                     iconsColor: Colors.white,
                   ),
                   trailing: Switch(
-                    value: true,
+                    value: settingsProvider.isEmailNotificationsEnabled,
                     onChanged: (bool value) {
+                      settingsProvider.toggleEmailNotifications(value);
                       print('Email Notifications toggled');
                     },
                   ),
                 ),
               ],
             ),
-
-            // Add more settings groups as needed
           ],
         ),
       ),

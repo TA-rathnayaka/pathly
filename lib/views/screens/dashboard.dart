@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:pathly/config/app_theme.dart';
+import 'package:pathly/views/components/course_card.dart';
 import 'recently.dart';
 
 class Dashboard extends StatefulWidget {
   static const String id = '/dashboard-screen';
+
   @override
   _DashboardState createState() => _DashboardState();
 }
@@ -18,6 +21,8 @@ class _DashboardState extends State<Dashboard> {
 
   @override
   Widget build(BuildContext context) {
+    bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
+
     return Scaffold(
       body: SafeArea(
         child: Container(
@@ -25,12 +30,10 @@ class _DashboardState extends State<Dashboard> {
             gradient: LinearGradient(
               begin: Alignment.topLeft,
               end: Alignment.topRight,
-              stops: [0.4, 0.7, 0.5, 0.5],
+              stops: [0.3, 0.7],
               colors: [
-                Color(0xfffafdff),
-                Color(0xfffafdff),
-                Color(0xffE7FFFF),
-                Color(0xffE7FFFF),
+                isDarkMode ? AppColors.darkBackground : AppColors.lightBackground,
+                isDarkMode ? AppColors.darkAccent : AppColors.lightAccent,
               ],
             ),
           ),
@@ -39,93 +42,77 @@ class _DashboardState extends State<Dashboard> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
+                // Header Section
                 Container(
                   width: double.infinity,
                   height: 300,
-                  child: ClipRRect(
+                  decoration: BoxDecoration(
                     borderRadius: BorderRadius.only(
                       bottomLeft: Radius.circular(45),
                       bottomRight: Radius.circular(45),
                     ),
-                    child: Container(
-                      decoration: BoxDecoration(
-                        image: DecorationImage(
-                          fit: BoxFit.fitWidth,
-                          image: AssetImage("assets/1.jpg"),
+                    image: DecorationImage(
+                      fit: BoxFit.cover,
+                      image: AssetImage("assets/1.jpg"),
+                    ),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        SizedBox(height: 108),
+                        Text(
+                          "All paths",
+                          style: isDarkMode
+                              ? AppTextStyles.headingDark
+                              : AppTextStyles.headingLight,
                         ),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(16.0),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            SizedBox(height: 108),
-                            Text(
-                              "All Subjects",
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 32,
-                                fontWeight: FontWeight.w700,
-                              ),
-                            ),
-                            SizedBox(height: 16),
-                            Text(
-                              "Please select a study subject",
-                              style: TextStyle(
-                                color: Color(0xffE1F5FF),
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ],
+                        SizedBox(height: 16),
+                        Text(
+                          "Please select a study path",
+                          style: isDarkMode
+                              ? AppTextStyles.subheadingDark
+                              : AppTextStyles.subheadingLight,
                         ),
-                      ),
+                      ],
                     ),
                   ),
                 ),
-                Container(
-                  margin: EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
-                  height: 62,
+
+                // Search Bar
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
                   child: TextField(
                     controller: _controller,
                     decoration: InputDecoration(
-                      suffixIcon: Padding(
-                        padding: const EdgeInsets.all(2.0),
-                        child: SizedBox(
-                          width: 64.0,
-                          child: TextButton(
-                            style: TextButton.styleFrom(
-                              backgroundColor: Color(0xffeef1f3),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.all(Radius.circular(12)),
-                              ),
-                            ),
-                            onPressed: () {},
-                            child: Icon(
-                              Icons.search,
-                              size: 32,
-                              color: Colors.black,
-                            ),
-                          ),
+                      suffixIcon: IconButton(
+                        icon: Icon(
+                          Icons.search,
+                          color: isDarkMode ? Colors.white : Colors.black,
+                          size: 32,
                         ),
+                        onPressed: () {},
                       ),
                       filled: true,
-                      fillColor: Colors.white,
+                      fillColor: isDarkMode
+                          ? AppColors.darkCard
+                          : Colors.white,
                       hintText: 'Search',
-                      hintStyle: TextStyle(
-                        fontSize: 18,
-                        color: Colors.black45,
-                        fontWeight: FontWeight.w600,
-                      ),
+                      hintStyle: isDarkMode
+                          ? AppTextStyles.searchHintDark
+                          : AppTextStyles.searchHintLight,
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12.0),
                         borderSide: BorderSide.none,
                       ),
+                      contentPadding: EdgeInsets.symmetric(horizontal: 16),
                     ),
                   ),
                 ),
-                SizedBox(height: 32),
+
+                // Category Section
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16.0),
                   child: Row(
@@ -133,23 +120,21 @@ class _DashboardState extends State<Dashboard> {
                     children: <Widget>[
                       Text(
                         "All Subjects",
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 18,
-                          fontWeight: FontWeight.w700,
-                        ),
+                        style: isDarkMode
+                            ? AppTextStyles.categoryTitleDark
+                            : AppTextStyles.categoryTitleLight,
                       ),
                       Text(
                         "See all",
-                        style: TextStyle(
-                          color: Colors.grey[500],
-                          fontSize: 14,
-                          fontWeight: FontWeight.bold,
-                        ),
+                        style: isDarkMode
+                            ? AppTextStyles.seeAllDark
+                            : AppTextStyles.seeAllLight,
                       ),
                     ],
                   ),
                 ),
+
+                // Course Cards
                 Container(
                   height: 210,
                   child: ListView.builder(
@@ -165,6 +150,8 @@ class _DashboardState extends State<Dashboard> {
                     },
                   ),
                 ),
+
+                // Recently Viewed Section
                 Padding(
                   padding: const EdgeInsets.all(16.0),
                   child: Row(
@@ -172,19 +159,15 @@ class _DashboardState extends State<Dashboard> {
                     children: <Widget>[
                       Text(
                         "Recently Viewed",
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 18,
-                          fontWeight: FontWeight.w700,
-                        ),
+                        style: isDarkMode
+                            ? AppTextStyles.categoryTitleDark
+                            : AppTextStyles.categoryTitleLight,
                       ),
                       Text(
                         "See all",
-                        style: TextStyle(
-                          color: Colors.grey[500],
-                          fontSize: 14,
-                          fontWeight: FontWeight.bold,
-                        ),
+                        style: isDarkMode
+                            ? AppTextStyles.seeAllDark
+                            : AppTextStyles.seeAllLight,
                       ),
                     ],
                   ),
@@ -202,63 +185,6 @@ class _DashboardState extends State<Dashboard> {
             ),
           ),
         ),
-      ),
-    );
-  }
-}
-class CourseCard extends StatelessWidget {
-  final String title;
-  final String count;
-  final String imagePath;
-
-  // Using named parameters and marking them as required
-  CourseCard({
-    Key? key,
-    required this.title,
-    required this.count,
-    required this.imagePath,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.all(16.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: <Widget>[
-          Container(
-            height: 140.0,
-            width: 250.0,
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage(imagePath),
-                fit: BoxFit.cover,
-              ),
-              borderRadius: BorderRadius.circular(24),
-              boxShadow: <BoxShadow>[
-                BoxShadow(
-                  color: Colors.grey,
-                  blurRadius: 15.0,
-                  offset: Offset(0.75, 0.95),
-                ),
-              ],
-            ),
-          ),
-          SizedBox(height: 16),
-          Padding(
-            padding: const EdgeInsets.only(left: 4.0),
-            child: Text(
-              title,
-              style: TextStyle(
-                color: Colors.black,
-                fontWeight: FontWeight.bold,
-                letterSpacing: 1.9,
-                fontSize: 16.0,
-              ),
-            ),
-          ),
-        ],
       ),
     );
   }
