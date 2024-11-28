@@ -9,7 +9,6 @@ final routes = {
   LoginScreen.id: (context) => LoginScreen(),
   SignUpScreen.id: (context) => SignUpScreen(),
   MainScreen.id: (context) => MainScreen(),
-  FrontendRoadmapScreen.id : (context) => FrontendRoadmapScreen(),
-
-
+  FrontendRoadmapScreen.id: (context) => FrontendRoadmapScreen(),
+  SettingsScreen.id: (context) => SettingsScreen(),
 };

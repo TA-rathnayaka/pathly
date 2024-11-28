@@ -13,7 +13,7 @@ class MainScreen extends StatelessWidget {
     Dashboard(),
     TechPathsScreen(),
     Dashboard(),
-    Dashboard(),
+    SettingsScreen(),
   ];
 
   @override
