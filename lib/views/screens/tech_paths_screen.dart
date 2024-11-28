@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pathly/views/screens/roadmap/frontend_rodamap_page.dart';
+import 'package:pathly/views/screens/frontend_roadmap_page.dart';
 
 class TechPathsScreen extends StatelessWidget {
   static final String id = '/tech_paths_screen';
@@ -68,10 +68,7 @@ class TechPathsScreen extends StatelessWidget {
                         color: Color(0xFF2A2A2A),
                         borderRadius: BorderRadius.circular(12),
                       ),
-                      child: IconButton(
-                        icon: Icon(Icons.arrow_back, color: Colors.white),
-                        onPressed: () => Navigator.pop(context),
-                      ),
+
                     ),
                     SizedBox(width: 16),
                     Expanded(

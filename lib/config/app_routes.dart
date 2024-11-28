@@ -8,6 +8,8 @@ final routes = {
   Dashboard.id: (context) => Dashboard(),
   LoginScreen.id: (context) => LoginScreen(),
   SignUpScreen.id: (context) => SignUpScreen(),
-  MainScreen.id: (context) => MainScreen()
+  MainScreen.id: (context) => MainScreen(),
+  FrontendRoadmapScreen.id : (context) => FrontendRoadmapScreen(),
+
 
 };
