@@ -1,183 +1,82 @@
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:provider/provider.dart';
-import 'package:pathly/providers/path_provider.dart';
+import 'package:pathly/views/screens/stages_screen.dart';
 
-class CreatePathScreen extends StatelessWidget {
+class CreatePathScreen extends StatefulWidget {
   static final String id = '/create_path';
 
   @override
-  Widget build(BuildContext context) {
-    final pathState = Provider.of<PathProvider>(context);
-    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+  _CreatePathScreenState createState() => _CreatePathScreenState();
+}
 
+class _CreatePathScreenState extends State<CreatePathScreen> {
+  final TextEditingController _titleController = TextEditingController();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  String? _title;
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Create Path'),
-      ),
+      appBar: AppBar(title: Text('Create Roadmap')),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Form(
-          child: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
+          key: _formKey,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              if (_title == null)
                 TextFormField(
-                  controller: pathState.pathNameController,
+                  controller: _titleController,
                   decoration: InputDecoration(
-                    labelText: 'Path Name',
-                    labelStyle: TextStyle(color: isDarkMode ? Colors.white : Colors.black),
-                    filled: true,
-                    fillColor: isDarkMode
-                        ? Colors.grey[800]!.withOpacity(0.85) // Darker background in dark mode
-                        : Colors.grey[200]!.withOpacity(0.85), // Lighter background in light mode
-                    hintText: 'Enter Path Name',
-                    hintStyle: TextStyle(
-                      color: isDarkMode ? Colors.white60 : Colors.black45, // Lighter hint text in dark mode
-                    ),
-
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12.0),
-                      borderSide: BorderSide.none, // No border on focus
-                    ),
+                    labelText: 'Enter Roadmap Title',
+                    labelStyle: TextStyle(color: Colors.black), // Fix label color
+                    hintStyle: TextStyle(color: Colors.grey), // Fix hint text color
+                    border: OutlineInputBorder(),
+                    prefixIcon: Icon(Icons.title, color: Colors.blue),
                   ),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'Please enter a path name';
+                      return 'Please enter a title';
                     }
                     return null;
                   },
                 ),
-                SizedBox(height: 20),
-                Text(
-                  'Special Points:',
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-                ),
-                ...pathState.specialPoints.map((point) {
-                  return Card(
-                    margin: EdgeInsets.symmetric(vertical: 8),
-                    child: ListTile(
-                      title: Text(point['title']),
-                      subtitle: Text(point['description']),
-                      trailing: Icon(Icons.edit),
-                      onTap: () {
-                        // Handle editing logic here
-                      },
-                    ),
-                  );
-                }).toList(),
-                SizedBox(height: 20),
-                ElevatedButton.icon(
-                  onPressed: () => _showAddSpecialPointDialog(context),
-                  icon: Icon(Icons.add),
-                  label: Text('Add Special Point'),
-                ),
-                SizedBox(height: 30),
+              SizedBox(height: 20),
+              if (_title == null)
                 ElevatedButton(
                   onPressed: () {
-                    if (pathState.pathNameController.text.isNotEmpty) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text('Path created successfully!')),
-                      );
-                      pathState.clear(); // Reset state after saving
+                    if (_formKey.currentState?.validate() ?? false) {
+                      setState(() {
+                        _title = _titleController.text;
+                      });
                     }
                   },
-                  child: Text('Save Path'),
+                  child: Text('Add Title'),
                 ),
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
-  void _showAddSpecialPointDialog(BuildContext context) {
-    final pathState = Provider.of<PathProvider>(context, listen: false);
-    final titleController = TextEditingController();
-    final descriptionController = TextEditingController();
-    final linkController = TextEditingController();
-    String? imagePath;
-    XFile? video;
-
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: Text('Add Special Point'),
-        content: SingleChildScrollView(
-          child: Column(
-            children: [
-              TextField(
-                controller: titleController,
-                decoration: InputDecoration(labelText: 'Title'),
-              ),
-              TextField(
-                controller: descriptionController,
-                decoration: InputDecoration(labelText: 'Description'),
-                maxLines: 3,
-              ),
-              TextField(
-                controller: linkController,
-                decoration: InputDecoration(labelText: 'Link (Optional)'),
-              ),
-              SizedBox(height: 10),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  ElevatedButton.icon(
-                    onPressed: () async {
-                      final pickedFile = await pathState.picker.pickImage(
-                        source: ImageSource.gallery,
-                      );
-                      if (pickedFile != null) {
-                        imagePath = pickedFile.path;
-                      }
-                    },
-                    icon: Icon(Icons.image),
-                    label: Text('Add Image'),
+              if (_title != null)
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => StagePage(title: _title!),
+                      ),
+                    );
+                  },
+                  child: Container(
+                    padding: EdgeInsets.all(20),
+                    color: Colors.blueAccent,
+                    child: Text(
+                      'Title: $_title',
+                      style: TextStyle(color: Colors.white, fontSize: 18),
+                    ),
                   ),
-                  ElevatedButton.icon(
-                    onPressed: () async {
-                      final pickedVideo = await pathState.picker.pickVideo(
-                        source: ImageSource.gallery,
-                      );
-                      if (pickedVideo != null) {
-                        video = pickedVideo;
-                      }
-                    },
-                    icon: Icon(Icons.video_library),
-                    label: Text('Add Video'),
-                  ),
-                ],
-              ),
+                ),
             ],
           ),
         ),
-        actions: [
-          TextButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            child: Text('Cancel'),
-          ),
-          ElevatedButton(
-            onPressed: () {
-              if (titleController.text.isNotEmpty &&
-                  descriptionController.text.isNotEmpty) {
-                pathState.addSpecialPoint({
-                  'title': titleController.text,
-                  'description': descriptionController.text,
-                  'link': linkController.text,
-                  'image': imagePath,
-                  'video': video,
-                });
-                Navigator.pop(context);
-              }
-            },
-            child: Text('Add'),
-          ),
-        ],
       ),
     );
   }
 }
+
