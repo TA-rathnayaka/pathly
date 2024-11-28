@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pathly/services/auth_service.dart';
+import 'package:pathly/views/screens/_all.dart';
 
 class SignUpScreen extends StatefulWidget {
   static const String id = '/signup_screen';
@@ -142,7 +143,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           ),
                           TextButton(
                             onPressed: () {
-                              Navigator.pushNamed(context, '/login_screen');
+                              Navigator.pushNamed(context, LoginScreen.id);
                             },
                             child: Text(
                               'Log in',
