@@ -1,4 +1,4 @@
-import 'package:pathly/services/auth.dart';
+import 'package:pathly/services/auth_service.dart';
 import 'package:pathly/services/user_service.dart';
 
 class User {

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:pathly/views/screens/dashboard.dart';
 import 'package:pathly/views/screens/login_screen.dart';
-import 'package:pathly/services/auth.dart';
+import 'package:pathly/services/auth_service.dart';
+import 'package:pathly/views/screens/main_screen.dart';
 
 class SplashScreen extends StatelessWidget {
   static final String id = '/';
@@ -9,7 +10,7 @@ class SplashScreen extends StatelessWidget {
   Future<void> _navigateToLoginOrDashboard(BuildContext context) async {
     bool isAuthenticated = await AuthService().isUserAuthenticated();
     if (isAuthenticated) {
-      Navigator.pushReplacementNamed(context, Dashboard.id);
+      Navigator.pushReplacementNamed(context, MainScreen.id);
     } else {
       Navigator.pushReplacementNamed(context, LoginScreen.id);
     }

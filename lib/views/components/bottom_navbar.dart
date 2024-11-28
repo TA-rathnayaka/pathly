@@ -1,6 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:pathly/views/constants/bottom_navbar_constants.dart';
-
+import 'package:flutter/material.dart';
 
 class BottomNavbar extends StatelessWidget {
   final int currentIndex;
@@ -14,42 +13,43 @@ class BottomNavbar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.all(10),
-      decoration: BoxDecoration(
-        color: kBackgroundColorBottomNavbar,
-        borderRadius: kBorderRadiusBottomNavbar,
-        boxShadow: [
-          BoxShadow(
-            color: kShadowColorBottomNavbar,
-            blurRadius: 10,
-            offset: const Offset(0, -2),
-          ),
-        ],
-      ),
+      color: Colors.black, // Set background color for the navbar
       child: BottomNavigationBar(
+        showSelectedLabels: false, // Hide selected labels
+        showUnselectedLabels: false, // Hide unselected labels
         type: BottomNavigationBarType.fixed,
-        backgroundColor: Colors.transparent,
+        backgroundColor: kBackgroundColorBottomNavbar, // Match navbar background color
         elevation: 0,
         currentIndex: currentIndex,
         onTap: onTap,
-        selectedItemColor: kSelectedItemColorBottomNavbar,
-        unselectedItemColor: kUnselectedItemColorBottomNavbar,
-        items: const [
+        items: [
           BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
+            icon: Icon(
+              Icons.home,
+              color: currentIndex == 0 ? kSelectedItemColorBottomNavbar : Colors.grey.withOpacity(0.6),
+            ),
+            label: 'Home', // Keep label for the sake of structure but won't be displayed
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.bar_chart),
-            label: 'Poll',
+            icon: Icon(
+              Icons.shopify,
+              color: currentIndex == 1 ? kSelectedItemColorBottomNavbar : Colors.grey.withOpacity(0.6),
+            ),
+            label: 'Shop', // Keep label for the sake of structure but won't be displayed
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.notifications),
-            label: 'Notification',
+            icon: Icon(
+              Icons.favorite,
+              color: currentIndex == 2 ? kSelectedItemColorBottomNavbar : Colors.grey.withOpacity(0.6),
+            ),
+            label: 'Favourite', // Keep label for the sake of structure but won't be displayed
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: 'Profile',
+            icon: Icon(
+              Icons.notification_add,
+              color: currentIndex == 3 ? kSelectedItemColorBottomNavbar : Colors.grey.withOpacity(0.6),
+            ),
+            label: 'Notification', // Keep label for the sake of structure but won't be displayed
           ),
         ],
       ),
