@@ -3,16 +3,23 @@ import 'package:pathly/views/screens/_all.dart';
 import 'package:pathly/views/components/bottom_navbar.dart';
 import 'package:pathly/views/screens/dashboard.dart';
 import 'package:pathly/views/screens/tech_paths_screen.dart';
+import 'package:pathly/views/screens/create_path_screen.dart';
+import 'package:pathly/views/screens/settings_screen.dart';
 import 'package:pathly/providers/navigator_provider.dart';
+import 'package:pathly/providers/path_provider.dart';
 import 'package:provider/provider.dart';
 
 class MainScreen extends StatelessWidget {
   static String id = '/main-screen';
 
+  // Wrapping pages with individual ChangeNotifierProvider if needed
   final List<Widget> _pages = [
     Dashboard(),
     TechPathsScreen(),
-    Dashboard(),
+    ChangeNotifierProvider(
+      create: (_) => PathProvider(), // Add state specific to CreatePathScreen
+      child: CreatePathScreen(),
+    ),
     SettingsScreen(),
   ];
 

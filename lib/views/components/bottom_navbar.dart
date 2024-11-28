@@ -12,13 +12,20 @@ class BottomNavbar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    bool isDarkMode = Theme.of(context).brightness == Brightness.dark; // Detect dark mode
+
+    // Define colors based on the current theme
+    Color backgroundColor = isDarkMode ? Colors.black : kBackgroundColorBottomNavbar;
+    Color selectedItemColor = isDarkMode ? Colors.white : kSelectedItemColorBottomNavbar;
+    Color unselectedItemColor = isDarkMode ? Colors.grey.withOpacity(0.6) : Colors.grey.withOpacity(0.6);
+
     return Container(
-      color: Colors.black, // Set background color for the navbar
+      color: backgroundColor, // Set background color for the navbar
       child: BottomNavigationBar(
-        showSelectedLabels: false, // Hide selected labels
-        showUnselectedLabels: false, // Hide unselected labels
+        showSelectedLabels: true, // Show selected labels
+        showUnselectedLabels: true, // Show unselected labels
         type: BottomNavigationBarType.fixed,
-        backgroundColor: kBackgroundColorBottomNavbar, // Match navbar background color
+        backgroundColor: backgroundColor, // Match navbar background color
         elevation: 0,
         currentIndex: currentIndex,
         onTap: onTap,
@@ -26,30 +33,30 @@ class BottomNavbar extends StatelessWidget {
           BottomNavigationBarItem(
             icon: Icon(
               Icons.home,
-              color: currentIndex == 0 ? kSelectedItemColorBottomNavbar : Colors.grey.withOpacity(0.6),
+              color: currentIndex == 0 ? selectedItemColor : unselectedItemColor,
             ),
-            label: 'Home', // Keep label for the sake of structure but won't be displayed
+            label: 'Home',
           ),
           BottomNavigationBarItem(
             icon: Icon(
-              Icons.shopify,
-              color: currentIndex == 1 ? kSelectedItemColorBottomNavbar : Colors.grey.withOpacity(0.6),
+              Icons.person_outline, // Appropriate icon for Following
+              color: currentIndex == 1 ? selectedItemColor : unselectedItemColor,
             ),
-            label: 'Shop', // Keep label for the sake of structure but won't be displayed
+            label: 'Following',
           ),
           BottomNavigationBarItem(
             icon: Icon(
-              Icons.favorite,
-              color: currentIndex == 2 ? kSelectedItemColorBottomNavbar : Colors.grey.withOpacity(0.6),
+              Icons.add_circle_outline, // Appropriate icon for Create Path
+              color: currentIndex == 2 ? selectedItemColor : unselectedItemColor,
             ),
-            label: 'Favourite', // Keep label for the sake of structure but won't be displayed
+            label: 'Create Path',
           ),
           BottomNavigationBarItem(
             icon: Icon(
-              Icons.notification_add,
-              color: currentIndex == 3 ? kSelectedItemColorBottomNavbar : Colors.grey.withOpacity(0.6),
+              Icons.settings, // Appropriate icon for Settings
+              color: currentIndex == 3 ? selectedItemColor : unselectedItemColor,
             ),
-            label: 'Notification', // Keep label for the sake of structure but won't be displayed
+            label: 'Settings',
           ),
         ],
       ),
