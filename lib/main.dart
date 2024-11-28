@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:pathly/views/screens/_all.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:pathly/config/app_routes.dart';
 import 'package:provider/provider.dart';
