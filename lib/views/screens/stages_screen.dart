@@ -1,37 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:pathly/providers/roadmap_provider.dart';
 
-class StagePage extends StatefulWidget {
+class StagePage extends StatelessWidget {
   final String title;
 
   StagePage({required this.title});
 
-  @override
-  _StagePageState createState() => _StagePageState();
-}
-
-class _StagePageState extends State<StagePage> {
   final TextEditingController _stageTitleController = TextEditingController();
-  final TextEditingController _stageDescriptionController =
-  TextEditingController();
+  final TextEditingController _stageDescriptionController = TextEditingController();
   DateTime? _stageDueDate;
   final GlobalKey<FormState> _stageFormKey = GlobalKey<FormState>();
-
-  List<RoadmapStage> _stages = [];
-
-  void _addStage() {
-    if (_stageFormKey.currentState?.validate() ?? false) {
-      setState(() {
-        _stages.add(RoadmapStage(
-          title: _stageTitleController.text,
-          description: _stageDescriptionController.text,
-          dueDate: _stageDueDate,
-        ));
-        _stageTitleController.clear();
-        _stageDescriptionController.clear();
-        _stageDueDate = null;
-      });
-    }
-  }
 
   Future<void> _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
@@ -41,9 +20,7 @@ class _StagePageState extends State<StagePage> {
       lastDate: DateTime(2101),
     );
     if (picked != null) {
-      setState(() {
-        _stageDueDate = picked;
-      });
+      _stageDueDate = picked;
     }
   }
 
@@ -59,8 +36,12 @@ class _StagePageState extends State<StagePage> {
 
   @override
   Widget build(BuildContext context) {
+    final roadmapProvider = Provider.of<RoadmapProvider>(context);
+    final roadmap = roadmapProvider.roadmaps
+        .firstWhere((r) => r.title == title, orElse: () => Roadmap(title: title));
+
     return Scaffold(
-      appBar: AppBar(title: Text('Add Stages for ${widget.title}')),
+      appBar: AppBar(title: Text('Add Stages for $title')),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -82,8 +63,7 @@ class _StagePageState extends State<StagePage> {
                   SizedBox(height: 10),
                   TextFormField(
                     controller: _stageDescriptionController,
-                    decoration: _inputDecoration(
-                        'Stage Description', Icons.description),
+                    decoration: _inputDecoration('Stage Description', Icons.description),
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return 'Please enter a description';
@@ -112,7 +92,21 @@ class _StagePageState extends State<StagePage> {
                   ),
                   SizedBox(height: 20),
                   ElevatedButton(
-                    onPressed: _addStage,
+                    onPressed: () {
+                      if (_stageFormKey.currentState?.validate() ?? false) {
+                        roadmapProvider.addStageToRoadmap(
+                          title,
+                          RoadmapStage(
+                            title: _stageTitleController.text,
+                            description: _stageDescriptionController.text,
+                            dueDate: _stageDueDate,
+                          ),
+                        );
+                        _stageTitleController.clear();
+                        _stageDescriptionController.clear();
+                        _stageDueDate = null;
+                      }
+                    },
                     child: Text('Add Stage'),
                   ),
                 ],
@@ -120,7 +114,7 @@ class _StagePageState extends State<StagePage> {
             ),
             SizedBox(height: 20),
             Expanded(
-              child: _stages.isEmpty
+              child: roadmap.stages.isEmpty
                   ? Center(
                 child: Text(
                   'No stages added yet. Add your first stage!',
@@ -128,9 +122,9 @@ class _StagePageState extends State<StagePage> {
                 ),
               )
                   : ListView.builder(
-                itemCount: _stages.length,
+                itemCount: roadmap.stages.length,
                 itemBuilder: (context, index) {
-                  final stage = _stages[index];
+                  final stage = roadmap.stages[index];
                   return Card(
                     elevation: 2,
                     margin: EdgeInsets.symmetric(vertical: 8),
@@ -145,9 +139,10 @@ class _StagePageState extends State<StagePage> {
                       trailing: IconButton(
                         icon: Icon(Icons.delete, color: Colors.red),
                         onPressed: () {
-                          setState(() {
-                            _stages.removeAt(index);
-                          });
+                          roadmapProvider.removeStageFromRoadmap(
+                            title,
+                            index,
+                          );
                         },
                       ),
                     ),
@@ -160,12 +155,4 @@ class _StagePageState extends State<StagePage> {
       ),
     );
   }
-}
-
-class RoadmapStage {
-  final String title;
-  final String description;
-  final DateTime? dueDate;
-
-  RoadmapStage({required this.title, required this.description, this.dueDate});
 }

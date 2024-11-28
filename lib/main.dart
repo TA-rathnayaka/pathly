@@ -4,7 +4,9 @@ import 'package:pathly/config/app_routes.dart';
 import 'package:provider/provider.dart';
 import 'package:pathly/providers/navigator_provider.dart';
 import 'package:pathly/providers/settings_provider.dart';
-import 'package:pathly/config/app_theme.dart'; // Correct import for AppColors and AppTextStyles
+import 'package:pathly/config/app_theme.dart';
+import 'package:pathly/providers/roadmap_provider.dart';
+// Correct import for AppColors and AppTextStyles
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -17,6 +19,7 @@ class PathlyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
+        ChangeNotifierProvider(create: (_) => RoadmapProvider()),
         ChangeNotifierProvider(create: (_) => NavigatorProvider()),
         ChangeNotifierProvider(create: (context) => SettingsProvider()),
       ],
