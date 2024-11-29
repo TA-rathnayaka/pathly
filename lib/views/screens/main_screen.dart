@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:pathly/views/screens/_all.dart';
 import 'package:pathly/views/components/bottom_navbar.dart';
 import 'package:pathly/providers/navigator_provider.dart';
-import 'package:pathly/providers/path_provider.dart';
+import 'package:pathly/providers/create_screen_provider.dart';
 import 'package:provider/provider.dart';
 
 
@@ -16,7 +16,7 @@ class MainScreen extends StatelessWidget {
     Dashboard(),
     TechPathScreen(),
     ChangeNotifierProvider(
-      create: (_) => PathProvider(), // Add state specific to CreatePathScreen
+      create: (_) => CreateScreenState(), // Add state specific to CreatePathScreen
       child: CreatePathScreen(),
     ),
     SettingsScreen(),

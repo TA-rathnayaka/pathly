@@ -1,55 +1,17 @@
-import 'dart:core';
+import 'package:flutter/material.dart';
+import 'package:pathly/models/roadmap_stage.dart';
 
-class RoadmapStep {
-  String stepId;
-  String title;
-  String description;
-  bool isCompleted;
-
-  RoadmapStep(this.stepId, this.title, this.description, this.isCompleted);
-
-  void completeStep() {
-    isCompleted = true;
-  }
-
-  Map<String, dynamic> getStepDetails() {
-    return {
-      'id': stepId,
-      'title': title,
-      'description': description,
-      'isCompleted': isCompleted,
-    };
-  }
-}
 
 class Roadmap {
-  String roadmapId;
   String title;
-  String description;
-  String level;
-  String category;
-  List<RoadmapStep> steps;
+  String description; // Added description field
+  IconData icon; // Added icon field
+  List<RoadmapStage> stages;
 
-  Roadmap(this.roadmapId, this.title, this.description, this.level,
-      this.category, this.steps);
-
-  Map<String, dynamic> getRoadmapDetails() {
-    return {
-      'id': roadmapId,
-      'title': title,
-      'description': description,
-      'level': level,
-      'category': category,
-      'stepsCount': steps.length,
-    };
-  }
-
-  void markStepCompleted(String stepId) {
-    for (var step in steps) {
-      if (step.stepId == stepId && !step.isCompleted) {
-        step.completeStep();
-        break;
-      }
-    }
-  }
+  Roadmap({
+    required this.title,
+    required this.description,
+    required this.icon,
+    List<RoadmapStage>? stages,
+  }) : stages = stages ?? []; // If no stages are provided, initialize with an empty list
 }
