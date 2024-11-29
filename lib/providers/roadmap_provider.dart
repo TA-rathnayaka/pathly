@@ -44,4 +44,13 @@ class RoadmapProvider extends ChangeNotifier {
       throw Exception('Roadmap not found');
     }
   }
+  void updateStageInRoadmap(String roadmapTitle, int stageIndex, RoadmapStage updatedStage) {
+    try {
+      final roadmap = _roadmaps.firstWhere((r) => r.title == roadmapTitle);
+      roadmap.stages[stageIndex] = updatedStage;
+      notifyListeners();
+    } catch (e) {
+      throw Exception('Roadmap not found');
+    }
+  }
 }
