@@ -5,12 +5,14 @@ class CourseCard extends StatelessWidget {
   final String title;
   final String count;
   final String imagePath;
+  final String route;
 
   CourseCard({
     Key? key,
     required this.title,
     required this.count,
     required this.imagePath,
+    required this.route,
   }) : super(key: key);
 
   @override
@@ -23,16 +25,36 @@ class CourseCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
-          Container(
-            height: 140.0,
-            width: 250.0,
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage(imagePath),
-                fit: BoxFit.cover,
+          Stack(
+            alignment: Alignment.center, // Center the button over the image
+            children: [
+              Container(
+                height: 140.0,
+                width: 250.0,
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    image: AssetImage(imagePath),
+                    fit: BoxFit.cover,
+                  ),
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
               ),
-              borderRadius: BorderRadius.circular(10.0),
-            ),
+              Positioned(
+                child: ElevatedButton(
+                  onPressed: () {
+                    Navigator.pushNamed(context, route);
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.white.withOpacity(0.8),
+                    foregroundColor: Colors.black,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20.0),
+                    ),
+                  ),
+                  child: Text("Enroll"),
+                ),
+              ),
+            ],
           ),
           SizedBox(height: 8),
           Text(

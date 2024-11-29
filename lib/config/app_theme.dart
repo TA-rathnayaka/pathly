@@ -31,7 +31,7 @@ class AppTextStyles {
   );
 
   static TextStyle subheadingLight = TextStyle(
-    color: Color(0xffE1F5FF),
+    color: Colors.black38,
     fontSize: 18,
     fontWeight: FontWeight.bold,
   );
@@ -77,4 +77,5 @@ class AppTextStyles {
     fontSize: 14,
     fontWeight: FontWeight.bold,
   );
+
 }

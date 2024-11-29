@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:pathly/config/app_theme.dart';
 import 'package:pathly/views/components/course_card.dart';
+import 'package:pathly/views/components/daily_tip_card.dart';
+import 'package:pathly/views/screens/_all.dart';
 import 'recently.dart';
 
 class Dashboard extends StatefulWidget {
@@ -47,11 +49,11 @@ class _DashboardState extends State<Dashboard> {
                 // Header Section with an Image and Text
                 Container(
                   width: double.infinity,
-                  height: 300,
+                  height: 280,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.only(
-                      bottomLeft: Radius.circular(45),
-                      bottomRight: Radius.circular(45),
+                      bottomLeft: Radius.circular(40),
+                      bottomRight: Radius.circular(40),
                     ),
                     image: DecorationImage(
                       fit: BoxFit.cover,
@@ -67,7 +69,7 @@ class _DashboardState extends State<Dashboard> {
                               bottomLeft: Radius.circular(40),
                               bottomRight: Radius.circular(40),
                             ),
-                            color: Colors.black.withOpacity(0.5),
+                            color: Colors.black.withOpacity(0.4),
                           ),
                         ),
                       ),
@@ -114,46 +116,46 @@ class _DashboardState extends State<Dashboard> {
                   ),
                 ),
 
-                // Search Bar
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
-                child: TextField(
-                  controller: _controller,
-                  decoration: InputDecoration(
-                    suffixIcon: IconButton(
-                      icon: Icon(
-                        Icons.search,
-                        color: isDarkMode ? Colors.white : Colors.black,
-                        size: 32,
+                // Search Bar (Modern and Interactive)
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 16.0, vertical: 16.0),
+                  child: TextField(
+                    controller: _controller,
+                    decoration: InputDecoration(
+                      suffixIcon: IconButton(
+                        icon: Icon(
+                          Icons.search,
+                          color: isDarkMode ? Colors.white : Colors.black,
+                          size: 32,
+                        ),
+                        onPressed: () {},
                       ),
-                      onPressed: () {},
+                      filled: true,
+                      fillColor: isDarkMode
+                          ? AppColors.darkCard.withOpacity(0.85)
+                          : Colors.grey[200]!.withOpacity(0.85),
+                      hintText: 'Search',
+                      hintStyle: isDarkMode
+                          ? AppTextStyles.searchHintDark
+                          : AppTextStyles.searchHintLight,
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(50.0),
+                        borderSide: BorderSide.none,
+                      ),
+                      contentPadding: EdgeInsets.symmetric(horizontal: 20),
                     ),
-                    filled: true,
-                    // Darkening the search bar background a little
-                    fillColor: isDarkMode
-                        ? AppColors.darkCard.withOpacity(0.85) // Slightly darker in dark mode
-                        : Colors.grey[200]!.withOpacity(0.85), // Slightly darker in light mode
-                    hintText: 'Search',
-                    hintStyle: isDarkMode
-                        ? AppTextStyles.searchHintDark
-                        : AppTextStyles.searchHintLight,
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12.0),
-                      borderSide: BorderSide.none,
-                    ),
-                    contentPadding: EdgeInsets.symmetric(horizontal: 16),
                   ),
                 ),
-              ),
 
-                // Category Section
+                // Explore Paths Section (Grid Layout)
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16.0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
                       Text(
-                        "All Subjects",
+                        "Explore Paths",
                         style: isDarkMode
                             ? AppTextStyles.categoryTitleDark
                             : AppTextStyles.categoryTitleLight,
@@ -168,28 +170,86 @@ class _DashboardState extends State<Dashboard> {
                   ),
                 ),
 
-                // Course Cards
-                Container(
-                  height: 210,
-                  margin: EdgeInsets.symmetric(vertical: 10),
-                  child: ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    itemCount: 3,
+                // GridView for Explore Paths
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 10),
+                  child: GridView.builder(
+                    shrinkWrap: true, // So it doesn't take up all screen space
+                    physics: NeverScrollableScrollPhysics(), // Disable scrolling
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2, // 2 columns in the grid
+                      crossAxisSpacing: 16.0, // Space between columns
+                      mainAxisSpacing: 16.0, // Space between rows
+                      childAspectRatio: 0.75, // Aspect ratio of the cards
+                    ),
+                    itemCount: 6, // Number of paths to display
                     itemBuilder: (BuildContext context, int index) {
-                      return Padding(
-                        padding: const EdgeInsets.only(right: 16.0),
-                        child: CourseCard(
-                          key: UniqueKey(),
-                          title: "Figma Design",
-                          count: "24",
-                          imagePath: "images/1.jpg",
-                        ),
+                      return CourseCard(
+                        key: UniqueKey(),
+                        title: "Path ${index + 1}",
+                        count: "24",
+                        imagePath: "images/1.jpg",
+                        route: FrontendRoadmapScreen.id, // Example image
                       );
                     },
                   ),
                 ),
 
-                // Recently Viewed Section
+                // Horizontal Scrollable Daily Tips Section
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Text(
+                        "Daily Tips",
+                        style: isDarkMode
+                            ? AppTextStyles.categoryTitleDark
+                            : AppTextStyles.categoryTitleLight,
+                      ),
+                      Text(
+                        "See all",
+                        style: isDarkMode
+                            ? AppTextStyles.seeAllDark
+                            : AppTextStyles.seeAllLight,
+                      ),
+                    ],
+                  ),
+                ),
+
+                // Horizontal Scrollable Section for Daily Tips
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 10),
+                  child: SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
+                      children: <Widget>[
+                        DailyTipCard(
+                          title: "Stay focused!",
+                          description: "Maintain a routine to stay on track.",
+                        ),
+                        DailyTipCard(
+                          title: "Keep practicing!",
+                          description: "Practice consistently to master new skills.",
+                        ),
+                        DailyTipCard(
+                          title: "Take breaks!",
+                          description: "Remember to take short breaks while studying.",
+                        ),
+                        DailyTipCard(
+                          title: "Set goals!",
+                          description: "Break your work into manageable chunks.",
+                        ),
+                        DailyTipCard(
+                          title: "Stay positive!",
+                          description: "A positive mindset can help you achieve more.",
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+
+                // Recently Viewed Section (Card-style display)
                 Padding(
                   padding: const EdgeInsets.all(16.0),
                   child: Row(
@@ -210,6 +270,8 @@ class _DashboardState extends State<Dashboard> {
                     ],
                   ),
                 ),
+
+                // Dynamically generate recently viewed items
                 ListView.builder(
                   itemCount: 3,
                   shrinkWrap: true,
@@ -227,3 +289,4 @@ class _DashboardState extends State<Dashboard> {
     );
   }
 }
+
