@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:pathly/config/app_theme.dart';
-import 'package:pathly/providers/settings_provider.dart';
-import 'package:provider/provider.dart';
-import 'package:pathly/views/components/settings_group.dart';
-import 'package:pathly/views/components/settings_item.dart';
-import 'package:pathly/views/components/icon_style.dart';
-import 'package:pathly/views/components/simple_user_card.dart';
+import 'package:pathly/config/app_theme.dart'; // Ensure this exists
+import 'package:pathly/providers/settings_provider.dart'; // Ensure this exists
+import 'package:pathly/providers/user_provider.dart'; // Import UserProvider
+import 'package:provider/provider.dart'; // Provider package
+import 'package:pathly/views/components/settings_group.dart'; // Ensure this exists
+import 'package:pathly/views/components/settings_item.dart'; // Ensure this exists
+import 'package:pathly/views/components/icon_style.dart'; // Ensure this exists
+import 'package:pathly/views/components/simple_user_card.dart'; // Ensure this exists
 
 class SettingsScreen extends StatelessWidget {
   static final String id = '/settings_screen';
@@ -13,6 +14,7 @@ class SettingsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final settingsProvider = context.watch<SettingsProvider>();
+    final userProvider = context.watch<UserProvider>(); // Access UserProvider
     final isDarkMode = settingsProvider.isDarkMode;
 
     // Define text color based on theme (shades of black/white)
@@ -40,10 +42,10 @@ class SettingsScreen extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 16.0),
                 child: SimpleUserCard(
-                  userProfilePic: AssetImage('assets/user_profile.jpg'),
-                  userName: 'John Doe',
+                  userProfilePic: AssetImage('images/user_profile.jpg'),
+                  userName: userProvider.email ?? "guest user", // Use userProvider's userName
                   userMoreInfo: Text(
-                    'john.doe@example.com',
+                    'john.doe@example.com', // You can update this from the user provider if necessary
                     style: TextStyle(fontSize: 16, color: subtitleColor), // Set subtitle color based on theme
                   ),
                   onTap: () {

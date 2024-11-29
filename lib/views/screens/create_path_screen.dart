@@ -170,7 +170,7 @@ class CreatePathScreen extends StatelessWidget {
                               final icon = createScreenState.selectedIcon;
 
                               // Add the new roadmap to the provider
-                              Provider.of<RoadmapProvider>(context,
+                             Provider.of<RoadmapProvider>(context,
                                   listen: false)
                                   .addRoadmap(title, description, icon);
 
@@ -220,7 +220,7 @@ class CreatePathScreen extends StatelessWidget {
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) =>
-                                      StagePage(title: roadmap.title),
+                                      StagePage(roadmapId: roadmap.id),
                                 ),
                               );
                             },

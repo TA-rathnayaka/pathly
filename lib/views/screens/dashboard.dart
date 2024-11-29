@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pathly/config/app_theme.dart';
+import 'package:pathly/providers/user_provider.dart';
 import 'package:pathly/views/components/course_card.dart';
 import 'package:pathly/views/components/daily_tip_card.dart';
 import 'package:pathly/views/screens/_all.dart';
@@ -180,28 +181,35 @@ class _DashboardState extends State<Dashboard> {
                       final roadmaps = roadmapProvider.roadmaps;
 
                       return GridView.builder(
-                        shrinkWrap: true, // So it doesn't take up all screen space
-                        physics: NeverScrollableScrollPhysics(), // Disable scrolling
+                        shrinkWrap: true,
+                        // So it doesn't take up all screen space
+                        physics: NeverScrollableScrollPhysics(),
+                        // Disable scrolling
                         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: 2, // 2 columns in the grid
                           crossAxisSpacing: 16.0, // Space between columns
                           mainAxisSpacing: 16.0, // Space between rows
                           childAspectRatio: 0.75, // Aspect ratio of the cards
                         ),
-                        itemCount: roadmaps.length, // Dynamically set item count based on roadmaps
+                        itemCount: roadmaps.length,
+                        // Dynamically set item count based on roadmaps
                         itemBuilder: (BuildContext context, int index) {
                           final roadmap = roadmaps[index];
 
                           return CourseCard(
-                            key: UniqueKey(),
-                            title: roadmap.title,
-                            count: "${roadmap.stages.length}",
-                            imagePath: "images/1.jpg", // Replace with actual image path
-                            route: FrontendRoadmapScreen.id,
-                            onPressed: (){
-
-                            }// Update with the correct screen route
-                          );
+                              key: UniqueKey(),
+                              title: roadmap.title,
+                              count: "${roadmap.stages.length}",
+                              imagePath: "images/1.jpg",
+                              // Replace with actual image path
+                              route: FrontendRoadmapScreen.id,
+                              onPressed: () {
+                                final provider = Provider.of<UserProvider>(
+                                    context,
+                                    listen: false);
+                                provider.enrollInRoadmap(roadmap.id);
+                              } // Update with the correct screen route
+                              );
                         },
                       );
                     },

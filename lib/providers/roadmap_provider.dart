@@ -24,37 +24,65 @@ class RoadmapProvider extends ChangeNotifier {
       throw Exception('Failed to fetch roadmaps: $e');
     }
   }
+  Future<Roadmap> getRoadmap(String roadmapId) async {
+    try {
+      final fetchedRoadmap = await _roadmapService.getRoadmapById(roadmapId);
+      // If the roadmap is not found or something goes wrong
+      if (fetchedRoadmap == null) {
+        throw Exception('Roadmap not found');
+      }
+      return fetchedRoadmap;
+    } catch (e) {
+      throw Exception('Failed to fetch roadmap with ID $roadmapId: $e');
+    }
+  }
 
   // Add a new roadmap both locally and on the server
-  Future<void> addRoadmap(String title, String description, IconData icon) async {
+  Future<String> addRoadmap(String title, String description, IconData icon) async {
     try {
+      // Add the roadmap to Firestore using the service method and get the roadmapId
+      final roadmapId = await _roadmapService.addRoadmap(title, description, icon);
+
+      // After adding to Firestore, create a new Roadmap object locally with the generated ID
       final newRoadmap = Roadmap(
+        id: roadmapId,  // Set the ID we just got from Firestore
         title: title,
         description: description,
         icon: icon,
         stages: [],  // Initialize with no stages
       );
 
-      // Add to the local list
+      // Add the new roadmap to the local list
       _roadmaps.add(newRoadmap);
 
-      // Also update the backend (Firebase or any service you're using)
-      await _roadmapService.addRoadmap(title, description, icon);
-
+      // Notify listeners to update the UI
       notifyListeners();
+
+      // Return the generated roadmapId
+      return roadmapId;
     } catch (e) {
       throw Exception('Failed to add roadmap: $e');
     }
   }
 
   // Add a stage to a specific roadmap, both locally and in the backend
-  void addStageToRoadmap(String roadmapTitle, RoadmapStage stage) async {
+  void addStageToRoadmap(String roadmapId, RoadmapStage stage) async {
     try {
-      final roadmapIndex = _roadmaps.indexWhere((r) => r.title == roadmapTitle);
+      // Find the roadmap by its ID
+      final roadmapIndex = _roadmaps.indexWhere((r) => r.id == roadmapId);
+
+      // Check if the roadmap was found
       if (roadmapIndex != -1) {
+        // Add the new stage to the roadmap
         _roadmaps[roadmapIndex].stages.add(stage);
-        await _roadmapService.addStageToRoadmap(roadmapTitle, stage);
+
+        // Also add the stage to the backend (Firestore or other service)
+        await _roadmapService.addStageToRoadmap(roadmapId, stage);
+
+        // Notify listeners to update the UI
         notifyListeners();
+      } else {
+        throw Exception('Roadmap with ID $roadmapId not found');
       }
     } catch (e) {
       throw Exception('Failed to add stage: $e');

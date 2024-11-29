@@ -8,9 +8,9 @@ import 'package:pathly/views/components/stage_card.dart';
 import 'package:pathly/views/components/stage_card_list.dart';
 
 class StagePage extends StatelessWidget {
-  final String title;
+  final String roadmapId;
 
-  StagePage({required this.title});
+  StagePage({required this.roadmapId});
 
   final TextEditingController _stageTitleController = TextEditingController();
   final TextEditingController _stageDescriptionController = TextEditingController();
@@ -42,9 +42,10 @@ class StagePage extends StatelessWidget {
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
     final roadmapProvider = Provider.of<RoadmapProvider>(context);
     final roadmap = roadmapProvider.roadmaps.firstWhere(
-          (r) => r.title == title,
+          (r) => r.id == roadmapId,
       orElse: () => Roadmap(
-        title: title,
+        id: '',
+        title: '',
         description: '',
         icon: Icons.map,
       ),
@@ -52,7 +53,7 @@ class StagePage extends StatelessWidget {
 
     if (roadmap.description.isEmpty) {
       return Scaffold(
-        appBar: AppBar(title: Text('Add Stages for $title')),
+        appBar: AppBar(title: Text('Add Stages')),
         body: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -82,7 +83,7 @@ class StagePage extends StatelessWidget {
     }
 
     return Scaffold(
-      appBar: AppBar(title: Text('Add Stages for $title')),
+      appBar: AppBar(title: Text('Add Stages for')),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -182,7 +183,7 @@ class StagePage extends StatelessWidget {
                         if (_editingStageIndex != null) {
                           // Update stage
                           roadmapProvider.updateStageInRoadmap(
-                            title,
+                            roadmapId,
                             _editingStageIndex!,
                             RoadmapStage(
                               title: _stageTitleController.text,
@@ -193,7 +194,7 @@ class StagePage extends StatelessWidget {
                         } else {
                           // Add new stage
                           roadmapProvider.addStageToRoadmap(
-                            title,
+                            roadmapId,
                             RoadmapStage(
                               title: _stageTitleController.text,
                               description: _stageDescriptionController.text,
@@ -248,7 +249,7 @@ class StagePage extends StatelessWidget {
                   },
                   onDelete: () {
                     roadmapProvider.removeStageFromRoadmap(
-                        title, roadmap.stages.indexOf(stage));
+                        roadmapId, roadmap.stages.indexOf(stage));
                   },
                   iconBackgroundColor: Colors.black54,
                   iconColor: Colors.white,

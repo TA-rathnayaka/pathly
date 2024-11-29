@@ -35,23 +35,19 @@ class SimpleUserCard extends StatelessWidget {
               onTap: (onTap == null) ? () {} : onTap,
               child: Stack(
                 children: [
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(imageRadius!),
-                    child: Image(
-                      image: userProfilePic,
-                      fit: BoxFit.cover,
-                      height: mediaQueryHeight / 5,
-                      width: mediaQueryWidth / 2.6,
-                    ),
+                  CircleAvatar(
+                    radius: mediaQueryWidth / 7, // Makes the profile picture round
+                    backgroundImage: userProfilePic,
                   ),
+
                   IconButton(
                     onPressed: () {},
                     icon: (icon != null)
                         ? icon!
                         : Icon(
-                            Icons.camera,
-                            color: Colors.transparent,
-                          ),
+                      Icons.camera,
+                      color: Colors.transparent,
+                    ),
                   ),
                 ],
               ),
