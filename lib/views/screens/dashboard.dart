@@ -3,7 +3,9 @@ import 'package:pathly/config/app_theme.dart';
 import 'package:pathly/views/components/course_card.dart';
 import 'package:pathly/views/components/daily_tip_card.dart';
 import 'package:pathly/views/screens/_all.dart';
-import 'recently.dart';
+import 'package:pathly/services/roadmap_service.dart';
+import 'package:pathly/providers/roadmap_provider.dart';
+import 'package:provider/provider.dart'; // Ensure you import provider package
 
 class Dashboard extends StatefulWidget {
   static const String id = '/dashboard-screen';
@@ -170,117 +172,44 @@ class _DashboardState extends State<Dashboard> {
                   ),
                 ),
 
-                // GridView for Explore Paths
+                // GridView for Explore Paths using Consumer to access roadmap data
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 10),
-                  child: GridView.builder(
-                    shrinkWrap: true, // So it doesn't take up all screen space
-                    physics: NeverScrollableScrollPhysics(), // Disable scrolling
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2, // 2 columns in the grid
-                      crossAxisSpacing: 16.0, // Space between columns
-                      mainAxisSpacing: 16.0, // Space between rows
-                      childAspectRatio: 0.75, // Aspect ratio of the cards
-                    ),
-                    itemCount: 6, // Number of paths to display
-                    itemBuilder: (BuildContext context, int index) {
-                      return CourseCard(
-                        key: UniqueKey(),
-                        title: "Path ${index + 1}",
-                        count: "24",
-                        imagePath: "images/1.jpg",
-                        route: FrontendRoadmapScreen.id, // Example image
+                  child: Consumer<RoadmapProvider>(
+                    builder: (context, roadmapProvider, child) {
+                      final roadmaps = roadmapProvider.roadmaps;
+
+                      return GridView.builder(
+                        shrinkWrap: true, // So it doesn't take up all screen space
+                        physics: NeverScrollableScrollPhysics(), // Disable scrolling
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2, // 2 columns in the grid
+                          crossAxisSpacing: 16.0, // Space between columns
+                          mainAxisSpacing: 16.0, // Space between rows
+                          childAspectRatio: 0.75, // Aspect ratio of the cards
+                        ),
+                        itemCount: roadmaps.length, // Dynamically set item count based on roadmaps
+                        itemBuilder: (BuildContext context, int index) {
+                          final roadmap = roadmaps[index];
+
+                          return CourseCard(
+                            key: UniqueKey(),
+                            title: roadmap.title,
+                            count: "${roadmap.stages.length}",
+                            imagePath: "images/1.jpg", // Replace with actual image path
+                            route: FrontendRoadmapScreen.id,
+                            onPressed: (){
+
+                            }// Update with the correct screen route
+                          );
+                        },
                       );
                     },
                   ),
                 ),
 
-                // Horizontal Scrollable Daily Tips Section
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Text(
-                        "Daily Tips",
-                        style: isDarkMode
-                            ? AppTextStyles.categoryTitleDark
-                            : AppTextStyles.categoryTitleLight,
-                      ),
-                      Text(
-                        "See all",
-                        style: isDarkMode
-                            ? AppTextStyles.seeAllDark
-                            : AppTextStyles.seeAllLight,
-                      ),
-                    ],
-                  ),
-                ),
-
-                // Horizontal Scrollable Section for Daily Tips
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 10),
-                  child: SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Row(
-                      children: <Widget>[
-                        DailyTipCard(
-                          title: "Stay focused!",
-                          description: "Maintain a routine to stay on track.",
-                        ),
-                        DailyTipCard(
-                          title: "Keep practicing!",
-                          description: "Practice consistently to master new skills.",
-                        ),
-                        DailyTipCard(
-                          title: "Take breaks!",
-                          description: "Remember to take short breaks while studying.",
-                        ),
-                        DailyTipCard(
-                          title: "Set goals!",
-                          description: "Break your work into manageable chunks.",
-                        ),
-                        DailyTipCard(
-                          title: "Stay positive!",
-                          description: "A positive mindset can help you achieve more.",
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-
-                // Recently Viewed Section (Card-style display)
-                Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Text(
-                        "Recently Viewed",
-                        style: isDarkMode
-                            ? AppTextStyles.categoryTitleDark
-                            : AppTextStyles.categoryTitleLight,
-                      ),
-                      Text(
-                        "See all",
-                        style: isDarkMode
-                            ? AppTextStyles.seeAllDark
-                            : AppTextStyles.seeAllLight,
-                      ),
-                    ],
-                  ),
-                ),
-
-                // Dynamically generate recently viewed items
-                ListView.builder(
-                  itemCount: 3,
-                  shrinkWrap: true,
-                  padding: EdgeInsets.zero,
-                  physics: NeverScrollableScrollPhysics(),
-                  itemBuilder: (BuildContext context, int index) {
-                    return Recently();
-                  },
-                ),
+                // Other sections (Daily Tips, Recently Viewed, etc.)...
+                // Similar structure can be applied to other sections if needed
               ],
             ),
           ),
@@ -289,4 +218,3 @@ class _DashboardState extends State<Dashboard> {
     );
   }
 }
-

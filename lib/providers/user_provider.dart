@@ -1,21 +1,25 @@
-import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
+import 'package:pathly/services/auth_service.dart';
 
-class UserProvider with ChangeNotifier {
-  String _userName = '';
-  bool _isLoggedIn = false;
+class UserProvider extends ChangeNotifier {
+  String? _email;
+  String? _displayName;
+  String? _uid;
 
-  String get userName => _userName;
-  bool get isLoggedIn => _isLoggedIn;
+  String? get email => _email;
+  String? get displayName => _displayName;
+  String? get uid => _uid;
 
-  void login(String userName) {
-    _userName = userName;
-    _isLoggedIn = true;
+  final AuthService _authService = AuthService();
+
+  // Fetch and set the current user info
+  Future<void> fetchUserInfo() async {
+    final userInfo = await _authService.getUserInfo();
+    _email = userInfo['email'];
+    _displayName = userInfo['displayName'];
+    _uid = userInfo['uid'];
     notifyListeners();
   }
 
-  void logout() {
-    _userName = '';
-    _isLoggedIn = false;
-    notifyListeners();
-  }
+// Optionally, update user info or perform other actions here
 }

@@ -90,6 +90,7 @@ class CourseCard extends StatelessWidget {
   final String count;
   final String imagePath;
   final String route;
+  final VoidCallback? onPressed;  // Added parameter for the onPressed callback
 
   CourseCard({
     Key? key,
@@ -97,6 +98,7 @@ class CourseCard extends StatelessWidget {
     required this.count,
     required this.imagePath,
     required this.route,
+    this.onPressed, // Allow optional onPressed parameter
   }) : super(key: key);
 
   @override
@@ -125,43 +127,7 @@ class CourseCard extends StatelessWidget {
               ),
               Positioned(
                 child: ElevatedButton(
-                  onPressed: () async {
-                    print("Enroll button pressed!"); // Debug print
-
-                    // Get the current user UID
-                    User? user = FirebaseAuth.instance.currentUser;
-                    print("Current user: ${user?.uid}"); // Print user UID
-
-                    if (user != null) {
-                      // Get the Firestore instance
-                      FirebaseFirestore firestore = FirebaseFirestore.instance;
-
-                      // Define the course enrollment data
-                      Map<String, dynamic> enrollmentData = {
-                        'courseTitle': title,
-                        'userId': user.uid,
-                        'enrolledAt': FieldValue.serverTimestamp(),
-                      };
-
-                      try {
-                        print("Adding document to Firestore..."); // Debug print
-
-                        // Add the enrollment document to Firestore
-                        await firestore.collection('enrollments').add(enrollmentData);
-
-                        print("Document added successfully for user ${user.uid}"); // Debug print
-
-                        // Optionally, navigate to the course screen
-                        print("Navigating to course screen..."); // Debug print
-                        Navigator.pushNamed(context, route);
-                      } catch (e) {
-                        // Print error message
-                        print("Error adding document: $e"); // Debug print
-                      }
-                    } else {
-                      print("No user logged in"); // Debug print
-                    }
-                  },
+                  onPressed: onPressed,
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.white.withOpacity(0.8),
                     foregroundColor: Colors.black,

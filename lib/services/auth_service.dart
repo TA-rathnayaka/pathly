@@ -9,8 +9,7 @@ class AuthService {
 
   Future<bool> isUserAuthenticated() async {
     User? user = _auth.currentUser;
-    return user !=
-        null;
+    return user != null;
   }
 
   Future<void> signOut() async {
@@ -35,7 +34,7 @@ class AuthService {
           print('Wrong password provided for that user.');
           break;
         default:
-          print('An undefined Error happened.');
+          print('An undefined error happened.');
       }
       return null;
     } catch (e) {
@@ -100,6 +99,23 @@ class AuthService {
       }
     } else {
       print('No user is currently logged in.');
+    }
+  }
+
+  // New method to get user information
+  Future<Map<String, String?>> getUserInfo() async {
+    User? user = _auth.currentUser;
+
+    if (user != null) {
+      // You can return more details as needed (e.g., displayName, phoneNumber, etc.)
+      return {
+        'email': user.email,
+        'displayName': user.displayName,
+        'uid': user.uid,
+      };
+    } else {
+      print('No user is currently logged in.');
+      return {};
     }
   }
 }

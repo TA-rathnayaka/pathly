@@ -7,7 +7,7 @@ import 'package:pathly/providers/settings_provider.dart';
 import 'package:pathly/config/app_theme.dart';
 import 'package:pathly/providers/roadmap_provider.dart';
 import 'package:pathly/services/roadmap_service.dart';
-// Correct import for AppColors and AppTextStyles
+import 'package:pathly/providers/user_provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -23,6 +23,7 @@ class PathlyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => RoadmapProvider(RoadmapService())),
         ChangeNotifierProvider(create: (_) => NavigatorProvider()),
         ChangeNotifierProvider(create: (context) => SettingsProvider()),
+        ChangeNotifierProvider(create: (context) => UserProvider()..fetchUserInfo()),
       ],
       child: Builder(
         builder: (context) {

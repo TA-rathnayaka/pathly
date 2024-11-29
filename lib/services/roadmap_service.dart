@@ -29,14 +29,18 @@ class RoadmapService {
   }
 
   // Add a new roadmap to Firestore
-  Future<void> addRoadmap(String title, String description, IconData icon) async {
+  Future<String> addRoadmap(String title, String description, IconData icon) async {
     try {
-      await _firestore.collection('roadmaps').add({
+      // Add the roadmap to Firestore
+      final docRef = await _firestore.collection('roadmaps').add({
         'title': title,
         'description': description,
         'icon': icon.codePoint, // Store the icon code point
         'stages': [],
       });
+
+      // Return the document ID
+      return docRef.id;  // The auto-generated document ID
     } catch (e) {
       throw Exception('Failed to add roadmap: $e');
     }
