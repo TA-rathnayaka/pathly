@@ -11,17 +11,16 @@ class RoadmapService {
     try {
       final snapshot = await _firestore.collection('roadmaps').get();
       return snapshot.docs.map((doc) {
+        var stagesData = doc['stages'] as List?;
         return Roadmap(
           title: doc['title'],
           description: doc['description'],
           icon: IconData(doc['icon'], fontFamily: 'MaterialIcons'),
-          stages: (doc['stages'] as List)
-              .map((stage) => RoadmapStage(
+          stages: stagesData?.map((stage) => RoadmapStage(
             title: stage['title'],
             description: stage['description'],
             dueDate: (stage['dueDate'] as Timestamp?)?.toDate(),
-          ))
-              .toList(),
+          )).toList() ?? [],
         );
       }).toList();
     } catch (e) {
