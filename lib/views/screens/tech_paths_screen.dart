@@ -59,7 +59,7 @@ class TechPathScreen extends StatelessWidget {
               color: Color(0xFF00BFAE),
               progress: 0.0,
               onTap: () {
-                Navigator.pushNamed(context, MobileAppRoadmapScreen.id);
+                Navigator.pushNamed(context, MobileAppDevelopmentRoadmapScreen.id);
               },
             ),
           ],

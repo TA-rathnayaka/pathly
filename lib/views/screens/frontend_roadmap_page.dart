@@ -1,69 +1,7 @@
-// import 'dart:math';
-// import 'package:confetti/confetti.dart';
-// import 'package:flutter/material.dart';
-// import 'package:pathly/views/components/step.dart';
-// import 'package:pathly/views/components/roadmap.dart';
-// import 'package:percent_indicator/circular_percent_indicator.dart';
-//
-//
-//
-//
-//
-//
-// class FrontendRoadmapScreen extends StatelessWidget {
-//   static const String id = '/frontend_roadmap_screen';
-//   final List<Map<String, dynamic>> roadmapStages = [
-//     {
-//       'title': 'HTML & CSS Basics',
-//       'description': 'Learn HTML and CSS to structure and style webpages.',
-//       'progress': 0.5,
-//       'color': Color(0xFF9FE870),
-//       'icon': Icons.code,
-//       'completed': false,
-//     },
-//     {
-//       'title': 'JavaScript Essentials',
-//       'description': 'Learn JavaScript to add interactivity.',
-//       'progress': 0.2,
-//       'color': Color(0xFF70E8E8),
-//       'icon': Icons.javascript,
-//       'completed': false,
-//     },
-//   ];
-//
-//
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       backgroundColor: Color(0xFF1A1A1A),
-//       body: RoadmapWidget(
-//         title: 'Frontend Development Roadmap',
-//         description: 'Master the basics of frontend development step-by-step.',
-//         totalXP: 0,
-//         currentLevel: 1,
-//         steps: roadmapStages.map((stage) {
-//           return StepWidget(
-//             title: stage['title'],
-//             description: stage['description'],
-//             icon: stage['icon'],
-//             color: stage['color'],
-//             progress: stage['progress'],
-//             onTap: () {
-//               // Handle stage click event
-//               print('${stage['title']} clicked');
-//             },
-//           );
-//         }).toList(),
-//       ),
-//     );
-//   }
-// }
-
-
-
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:pathly/models/roadmap_cat.dart';
+import 'package:pathly/views/components/roadmap_category_card.dart';
 
 class FrontendRoadmapScreen extends StatefulWidget {
   static const String id = '/frontend_roadmap_screen';
@@ -74,33 +12,7 @@ class FrontendRoadmapScreen extends StatefulWidget {
 
 class _FrontendRoadmapScreenState extends State<FrontendRoadmapScreen> {
   final List<RoadmapCategory> roadmapCategories = [
-    RoadmapCategory(
-      title: 'Internet Fundamentals',
-      description: 'Understand how the internet works',
-      subtopics: [
-        'How does the internet work?',
-        'HTTP Protocol',
-        'Domain Names',
-        'Web Hosting',
-        'DNS',
-        'Browser Mechanics',
-      ],
-      color: Color(0xFF4A90E2),
-      icon: Icons.public,
-    ),
-    RoadmapCategory(
-      title: 'HTML Mastery',
-      description: 'Build semantic and accessible web structures',
-      subtopics: [
-        'HTML Basics',
-        'Semantic HTML',
-        'Forms & Validation',
-        'Web Accessibility',
-        'SEO Fundamentals',
-      ],
-      color: Color(0xFFFF6B6B),
-      icon: Icons.code,
-    ),
+
     RoadmapCategory(
       title: 'CSS Expertise',
       description: 'Create responsive and beautiful designs',
@@ -152,6 +64,114 @@ class _FrontendRoadmapScreenState extends State<FrontendRoadmapScreen> {
       color: Color(0xFFEC407A),
       icon: Icons.widgets,
     ),
+    RoadmapCategory(
+      title: 'Responsive Web Design',
+      description: 'Ensure websites look great on any device',
+      subtopics: [
+        'Media Queries',
+        'Flexbox',
+        'Grid Layout',
+        'Mobile-First Design',
+        'Cross-Browser Compatibility',
+      ],
+      color: Color(0xFF26A69A),
+      icon: Icons.mobile_friendly,
+    ),
+    RoadmapCategory(
+      title: 'APIs and RESTful Services',
+      description: 'Learn how to interact with backend services',
+      subtopics: [
+        'What are APIs?',
+        'REST Architecture',
+        'CRUD Operations',
+        'Postman/Insomnia',
+        'Error Handling in APIs',
+      ],
+      color: Color(0xFFAB47BC),
+      icon: Icons.cloud,
+    ),
+    RoadmapCategory(
+      title: 'Web Performance Optimization',
+      description: 'Make websites load faster and perform better',
+      subtopics: [
+        'Lazy Loading',
+        'Image Optimization',
+        'Minification',
+        'Caching Strategies',
+        'Performance Metrics',
+      ],
+      color: Color(0xFFFF7043),
+      icon: Icons.speed,
+    ),
+    RoadmapCategory(
+      title: 'Testing and Debugging',
+      description: 'Ensure reliability with proper testing techniques',
+      subtopics: [
+        'Debugging Tools',
+        'Unit Testing with Jest',
+        'Integration Testing',
+        'End-to-End Testing with Cypress',
+        'Browser Developer Tools',
+      ],
+      color: Color(0xFF66BB6A),
+      icon: Icons.bug_report,
+    ),
+    RoadmapCategory(
+      title: 'Web Security Basics',
+      description: 'Protect web applications from vulnerabilities',
+      subtopics: [
+        'HTTPS and SSL/TLS',
+        'CORS',
+        'CSRF & XSS Attacks',
+        'Authentication & Authorization',
+        'OWASP Top 10',
+      ],
+      color: Color(0xFFE53935),
+      icon: Icons.security,
+    ),
+    RoadmapCategory(
+      title: 'Build Tools and Automation',
+      description: 'Streamline development workflows',
+      subtopics: [
+        'Webpack Basics',
+        'Babel',
+        'Parcel',
+        'Task Runners (Gulp/Grunt)',
+        'Code Linters & Formatters',
+      ],
+      color: Color(0xFF42A5F5),
+      icon: Icons.build,
+    ),
+    RoadmapCategory(
+      title: 'Progressive Web Apps (PWAs)',
+      description: 'Build apps with native-like features',
+      subtopics: [
+        'What are PWAs?',
+        'Service Workers',
+        'Web App Manifest',
+        'Offline Caching',
+        'Push Notifications',
+      ],
+      color: Color(0xFFEF5350),
+      icon: Icons.app_registration,
+    ),
+    RoadmapCategory(
+      title: 'Soft Skills for Developers',
+      description: 'Improve teamwork and communication',
+      subtopics: [
+        'Effective Communication',
+        'Time Management',
+        'Collaboration Tools (Slack/Trello)',
+        'Handling Feedback',
+        'Writing Documentation',
+      ],
+      color: Color(0xFF8D6E63),
+      icon: Icons.group,
+    ),
+
+
+
+    // Add other categories similarly...
   ];
 
   @override
@@ -181,81 +201,13 @@ class _FrontendRoadmapScreenState extends State<FrontendRoadmapScreen> {
           children: roadmapCategories.map((category) {
             return StaggeredGridTile.fit(
               crossAxisCellCount: 1,
-              child: _buildRoadmapCategoryCard(category, isDarkMode),
+              child: RoadmapCategoryCard(
+                category: category,
+                isDarkMode: isDarkMode,
+                onTap: () => _showCategoryDetailsBottomSheet(category),
+              ),
             );
           }).toList(),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildRoadmapCategoryCard(RoadmapCategory category, bool isDarkMode) {
-    return GestureDetector(
-      onTap: () {
-        _showCategoryDetailsBottomSheet(category);
-      },
-      child: Container(
-        decoration: BoxDecoration(
-          color: isDarkMode ? Color(0xFF1E1E1E) : Colors.white,
-          borderRadius: BorderRadius.circular(16),
-          boxShadow: [
-            BoxShadow(
-              color: category.color.withOpacity(0.2),
-              blurRadius: 10,
-              offset: Offset(0, 4),
-            ),
-          ],
-        ),
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Icon and Category
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Container(
-                  decoration: BoxDecoration(
-                    color: category.color.withOpacity(0.2),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  padding: EdgeInsets.all(8),
-                  child: Icon(
-                    category.icon,
-                    color: category.color,
-                    size: 32,
-                  ),
-                ),
-                Text(
-                  'Details',
-                  style: TextStyle(
-                    color: category.color,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(height: 16),
-            // Title
-            Text(
-              category.title,
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            SizedBox(height: 8),
-            // Description
-            Text(
-              category.description,
-              style: TextStyle(
-                fontSize: 14,
-                color: Colors.grey,
-              ),
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
-            ),
-          ],
         ),
       ),
     );
@@ -332,20 +284,4 @@ class _FrontendRoadmapScreenState extends State<FrontendRoadmapScreen> {
       },
     );
   }
-}
-
-class RoadmapCategory {
-  final String title;
-  final String description;
-  final List<String> subtopics;
-  final Color color;
-  final IconData icon;
-
-  RoadmapCategory({
-    required this.title,
-    required this.description,
-    required this.subtopics,
-    required this.color,
-    required this.icon,
-  });
 }

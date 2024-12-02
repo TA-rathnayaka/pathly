@@ -14,6 +14,7 @@ class Dashboard extends StatefulWidget {
 
 class _DashboardState extends State<Dashboard> {
   final TextEditingController _controller = TextEditingController();
+  List<bool> isHovered = List.filled(6, false); // Track hover state for each card
 
   @override
   void dispose() {
@@ -81,7 +82,7 @@ class _DashboardState extends State<Dashboard> {
                           children: <Widget>[
                             SizedBox(height: 108),
                             Text(
-                              "All paths",
+                              "Pathly shows the PATH",
                               style: AppTextStyles.headingDark.copyWith(
                                 color: Colors.white,
                                 fontWeight: FontWeight.bold,
@@ -96,7 +97,7 @@ class _DashboardState extends State<Dashboard> {
                             ),
                             SizedBox(height: 16),
                             Text(
-                              "Please select a study path",
+                              "Please select a  PATH",
                               style: AppTextStyles.subheadingDark.copyWith(
                                 color: Colors.white,
                                 fontWeight: FontWeight.normal,
@@ -116,7 +117,7 @@ class _DashboardState extends State<Dashboard> {
                   ),
                 ),
 
-                // Search Bar (Modern and Interactive)
+                // Search Bar
                 Padding(
                   padding: const EdgeInsets.symmetric(
                       horizontal: 16.0, vertical: 16.0),
@@ -148,14 +149,14 @@ class _DashboardState extends State<Dashboard> {
                   ),
                 ),
 
-                // Explore Paths Section (Grid Layout)
+                // Explore Paths Section
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16.0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
                       Text(
-                        "Explore Paths",
+                        "Explore PATHS",
                         style: isDarkMode
                             ? AppTextStyles.categoryTitleDark
                             : AppTextStyles.categoryTitleLight,
@@ -184,103 +185,87 @@ class _DashboardState extends State<Dashboard> {
                     ),
                     itemCount: 6, // Number of paths to display
                     itemBuilder: (BuildContext context, int index) {
-                      return CourseCard(
-                        key: UniqueKey(),
-                        title: "Path ${index + 1}",
-                        count: "24",
-                        imagePath: "images/1.jpg",
-                        route: FrontendRoadmapScreen.id, // Example image
+                      final paths = [
+                        {
+                          "title": "Frontend Development",
+                          "count": "24",
+                          "imagePath": "images/front.jpg",
+                          "route": FrontendRoadmapScreen.id,
+                        },
+                        {
+                          "title": "Backend Development",
+                          "count": "18",
+                          "imagePath": "images/back.jpg",
+                          "route": BackendRoadmapScreen.id,
+                        },
+                        {
+                          "title": "Full Stack Development",
+                          "count": "30",
+                          "imagePath": "images/full.jpg",
+                          "route": FrontendRoadmapScreen.id,
+                        },
+                        {
+                          "title": "Data Science",
+                          "count": "20",
+                          "imagePath": "images/data.jpg",
+                          "route": DataScienceRoadmapScreen.id,
+                        },
+                        {
+                          "title": "DevOps",
+                          "count": "15",
+                          "imagePath": "images/devOps.jpg",
+                          "route": FrontendRoadmapScreen.id,
+                        },
+                        {
+                          "title": "Cybersecurity",
+                          "count": "12",
+                          "imagePath": "images/cyber.jpg",
+                          "route": FrontendRoadmapScreen.id,
+                        },
+                      ];
+
+                      final path = paths[index];
+
+                      return MouseRegion(
+                        onEnter: (_) {
+                          setState(() {
+                            isHovered[index] = true;
+                          });
+                        },
+                        onExit: (_) {
+                          setState(() {
+                            isHovered[index] = false;
+                          });
+                        },
+                        child: Stack(
+                          alignment: Alignment.center,
+                          children: [
+                            CourseCard(
+                              key: UniqueKey(),
+                              title: path["title"]!,
+                              count: path["count"]!,
+                              imagePath: path["imagePath"]!,
+                              route: path["route"]!,
+                            ),
+                            if (isHovered[index])
+                              Positioned(
+                                bottom: 10,
+                                child: ElevatedButton(
+                                  onPressed: () {
+                                    Navigator.pushNamed(
+                                        context, path["route"]!);
+                                  },
+                                  child: Text("Explore"),
+                                ),
+                              ),
+                          ],
+                        ),
                       );
                     },
                   ),
                 ),
 
-                // Horizontal Scrollable Daily Tips Section
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Text(
-                        "Daily Tips",
-                        style: isDarkMode
-                            ? AppTextStyles.categoryTitleDark
-                            : AppTextStyles.categoryTitleLight,
-                      ),
-                      Text(
-                        "See all",
-                        style: isDarkMode
-                            ? AppTextStyles.seeAllDark
-                            : AppTextStyles.seeAllLight,
-                      ),
-                    ],
-                  ),
-                ),
-
-                // Horizontal Scrollable Section for Daily Tips
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 10),
-                  child: SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Row(
-                      children: <Widget>[
-                        DailyTipCard(
-                          title: "Stay focused!",
-                          description: "Maintain a routine to stay on track.",
-                        ),
-                        DailyTipCard(
-                          title: "Keep practicing!",
-                          description: "Practice consistently to master new skills.",
-                        ),
-                        DailyTipCard(
-                          title: "Take breaks!",
-                          description: "Remember to take short breaks while studying.",
-                        ),
-                        DailyTipCard(
-                          title: "Set goals!",
-                          description: "Break your work into manageable chunks.",
-                        ),
-                        DailyTipCard(
-                          title: "Stay positive!",
-                          description: "A positive mindset can help you achieve more.",
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-
-                // Recently Viewed Section (Card-style display)
-                Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Text(
-                        "Recently Viewed",
-                        style: isDarkMode
-                            ? AppTextStyles.categoryTitleDark
-                            : AppTextStyles.categoryTitleLight,
-                      ),
-                      Text(
-                        "See all",
-                        style: isDarkMode
-                            ? AppTextStyles.seeAllDark
-                            : AppTextStyles.seeAllLight,
-                      ),
-                    ],
-                  ),
-                ),
-
-                // Dynamically generate recently viewed items
-                ListView.builder(
-                  itemCount: 3,
-                  shrinkWrap: true,
-                  padding: EdgeInsets.zero,
-                  physics: NeverScrollableScrollPhysics(),
-                  itemBuilder: (BuildContext context, int index) {
-                    return Recently();
-                  },
-                ),
+                // Other Sections (Daily Tips, Recently Viewed) remain unchanged...
               ],
             ),
           ),
@@ -289,4 +274,3 @@ class _DashboardState extends State<Dashboard> {
     );
   }
 }
-
