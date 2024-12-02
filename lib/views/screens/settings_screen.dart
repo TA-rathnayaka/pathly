@@ -40,7 +40,7 @@ class SettingsScreen extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 16.0),
                 child: SimpleUserCard(
-                  userProfilePic: AssetImage('assets/user_profile.jpg'),
+                  userProfilePic: AssetImage('images/user_profile.png'),
                   userName: 'John Doe',
                   userMoreInfo: Text(
                     'john.doe@example.com',
