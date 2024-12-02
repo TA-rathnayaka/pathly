@@ -6,6 +6,8 @@ import 'package:pathly/views/screens/dashboard.dart';
 class LoginScreen extends StatefulWidget {
   static const String id = '/login_screen';
 
+  const LoginScreen({super.key});
+
   @override
   _LoginScreenState createState() => _LoginScreenState();
 }
@@ -51,9 +53,9 @@ class _LoginScreenState extends State<LoginScreen> {
                 flex: 3,
                 child: Container(
                   padding: const EdgeInsets.symmetric(horizontal: 24),
-                  child: Column(
+                  child: const Column(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: const [
+                    children: [
                       Icon(Icons.alt_route_rounded, size: 80, color: Color(0xFF9FE870)),
                       SizedBox(height: 24),
                       Text(

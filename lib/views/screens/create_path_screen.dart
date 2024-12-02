@@ -8,15 +8,17 @@ import 'package:pathly/views/components/tech_card.dart';
 import 'package:pathly/config/app_theme.dart'; // TechCard component
 
 class CreatePathScreen extends StatelessWidget {
-  static final String id = '/create_path';
-  final _formKey = GlobalKey<FormState>(); // Global key for the form
+  static const String id = '/create_path';
+  final _formKey = GlobalKey<FormState>();
+
+  CreatePathScreen({super.key}); // Global key for the form
 
   @override
   Widget build(BuildContext context) {
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
 
     return Scaffold(
-      appBar: AppBar(title: Text('Create Roadmap')),
+      appBar: AppBar(title: const Text('Create Roadmap')),
       body: ChangeNotifierProvider(
         create: (_) => CreateScreenState(), // Provide the state
         child: Consumer<CreateScreenState>(
@@ -47,7 +49,7 @@ class CreatePathScreen extends StatelessWidget {
                               borderRadius: BorderRadius.circular(12.0),
                               borderSide: BorderSide.none,
                             ),
-                            contentPadding: EdgeInsets.symmetric(horizontal: 16),
+                            contentPadding: const EdgeInsets.symmetric(horizontal: 16),
                           ),
                           validator: (value) {
                             if (value == null || value.isEmpty) {
@@ -56,7 +58,7 @@ class CreatePathScreen extends StatelessWidget {
                             return null;
                           },
                         ),
-                        SizedBox(height: 20),
+                        const SizedBox(height: 20),
 
                         // TextFormField for entering the description
                         TextFormField(
@@ -76,7 +78,7 @@ class CreatePathScreen extends StatelessWidget {
                               borderRadius: BorderRadius.circular(12.0),
                               borderSide: BorderSide.none,
                             ),
-                            contentPadding: EdgeInsets.symmetric(horizontal: 16),
+                            contentPadding: const EdgeInsets.symmetric(horizontal: 16),
                           ),
                           validator: (value) {
                             if (value == null || value.isEmpty) {
@@ -85,7 +87,35 @@ class CreatePathScreen extends StatelessWidget {
                             return null;
                           },
                         ),
-                        SizedBox(height: 20),
+                        const SizedBox(height: 20),
+
+                        // TextFormField for entering the image URL
+                        TextFormField(
+                          initialValue: createScreenState.imageUrl,
+                          onChanged: (value) => createScreenState.setImageUrl(value),
+                          decoration: InputDecoration(
+                            filled: true,
+                            fillColor: isDarkMode
+                                ? AppColors.darkCard.withOpacity(0.85)
+                                : Colors.grey[200]!.withOpacity(0.85),
+                            hintText: 'Enter Image URL',
+                            hintStyle: isDarkMode
+                                ? AppTextStyles.searchHintDark
+                                : AppTextStyles.searchHintLight,
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(12.0),
+                              borderSide: BorderSide.none,
+                            ),
+                            contentPadding: const EdgeInsets.symmetric(horizontal: 16),
+                          ),
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Please enter an image URL';
+                            }
+                            return null;
+                          },
+                        ),
+                        const SizedBox(height: 20),
 
                         // Icon picker (Styled dropdown)
                         DropdownButtonFormField<IconData>(
@@ -104,8 +134,8 @@ class CreatePathScreen extends StatelessWidget {
                                       color: isDarkMode
                                           ? Colors.white
                                           : Colors.black),
-                                  SizedBox(width: 10),
-                                  Text('Star')
+                                  const SizedBox(width: 10),
+                                  const Text('Star')
                                 ],
                               ),
                             ),
@@ -117,8 +147,8 @@ class CreatePathScreen extends StatelessWidget {
                                       color: isDarkMode
                                           ? Colors.white
                                           : Colors.black),
-                                  SizedBox(width: 10),
-                                  Text('Check Circle')
+                                  const SizedBox(width: 10),
+                                  const Text('Check Circle')
                                 ],
                               ),
                             ),
@@ -130,8 +160,8 @@ class CreatePathScreen extends StatelessWidget {
                                       color: isDarkMode
                                           ? Colors.white
                                           : Colors.black),
-                                  SizedBox(width: 10),
-                                  Text('Thumb Up')
+                                  const SizedBox(width: 10),
+                                  const Text('Thumb Up')
                                 ],
                               ),
                             ),
@@ -150,7 +180,7 @@ class CreatePathScreen extends StatelessWidget {
                               borderSide: BorderSide.none,
                             ),
                             contentPadding:
-                            EdgeInsets.symmetric(horizontal: 16),
+                            const EdgeInsets.symmetric(horizontal: 16),
                           ),
                           validator: (value) {
                             if (value == null) {
@@ -159,7 +189,7 @@ class CreatePathScreen extends StatelessWidget {
                             return null;
                           },
                         ),
-                        SizedBox(height: 20),
+                        const SizedBox(height: 20),
 
                         // Button to add the title, description, and icon, and navigate
                         ElevatedButton(
@@ -168,11 +198,12 @@ class CreatePathScreen extends StatelessWidget {
                               final title = createScreenState.title;
                               final description = createScreenState.description;
                               final icon = createScreenState.selectedIcon;
+                              final imageUrl = createScreenState.imageUrl;
 
                               // Add the new roadmap to the provider
-                             Provider.of<RoadmapProvider>(context,
+                              Provider.of<RoadmapProvider>(context,
                                   listen: false)
-                                  .addRoadmap(title, description, icon);
+                                  .addRoadmap(title, description, icon, imageUrl);
 
                               // Reset the form after adding the roadmap
                               createScreenState.resetForm();
@@ -184,21 +215,21 @@ class CreatePathScreen extends StatelessWidget {
                             foregroundColor: Colors.white,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(12.0),
-                              side: BorderSide(
+                              side: const BorderSide(
                                   color: Colors.white, width: 1.5), // Border
                             ),
-                            padding: EdgeInsets.symmetric(
+                            padding: const EdgeInsets.symmetric(
                                 vertical: 12, horizontal: 16),
                           ),
-                          child: Text('Add Roadmap'),
+                          child: const Text('Add Roadmap'),
                         ),
                       ],
                     ),
                   ),
 
                   // Display list of roadmaps using TechPathList and TechCard components
-                  SizedBox(height: 20),
-                  Text(
+                  const SizedBox(height: 20),
+                  const Text(
                     'Roadmap Titles:',
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
@@ -213,6 +244,7 @@ class CreatePathScreen extends StatelessWidget {
                             icon: roadmap.icon, // Selected icon from the form
                             title: roadmap.title,
                             subtitle: roadmap.description,
+
                             iconBackgroundColor: Colors.blue.withOpacity(0.1),
                             iconColor: Colors.blue,
                             onTap: () {

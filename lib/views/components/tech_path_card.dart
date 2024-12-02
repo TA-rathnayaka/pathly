@@ -9,14 +9,14 @@ class TechPathCard extends StatelessWidget {
   final VoidCallback onTap;
 
   const TechPathCard({
-    Key? key,
+    super.key,
     required this.name,
     required this.description,
     required this.icon,
     required this.color,
     required this.progress,
     required this.onTap,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +25,7 @@ class TechPathCard extends StatelessWidget {
     // Set colors based on theme
     final textColor = isDarkMode ? Colors.white : Colors.black;
     final subtitleColor = isDarkMode ? Colors.white70 : Colors.black54;
-    final backgroundColor = isDarkMode ? Color(0xFF2A2A2A) : Colors.white;
+    final backgroundColor = isDarkMode ? const Color(0xFF2A2A2A) : Colors.white;
     final borderColor = isDarkMode ? color.withOpacity(0.3) : color.withOpacity(0.1);
 
     return GestureDetector(
@@ -33,10 +33,10 @@ class TechPathCard extends StatelessWidget {
       child: ClipRRect(
         borderRadius: BorderRadius.circular(15), // Rounded corners like SettingsItem
         child: ListTile(
-          contentPadding: EdgeInsets.symmetric(vertical: 10, horizontal: 16),
+          contentPadding: const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
           tileColor: backgroundColor, // Background color based on theme
           leading: Container(
-            padding: EdgeInsets.all(8),
+            padding: const EdgeInsets.all(8),
             decoration: BoxDecoration(
               color: color.withOpacity(0.1), // Light background behind icon
               shape: BoxShape.circle,
@@ -67,7 +67,7 @@ class TechPathCard extends StatelessWidget {
             maxLines: 2,
           ),
           trailing: Container(
-            padding: EdgeInsets.symmetric(vertical: 8),
+            padding: const EdgeInsets.symmetric(vertical: 8),
             child: Column(
               children: [
                 Container(

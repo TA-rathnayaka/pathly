@@ -1,9 +1,6 @@
-import 'dart:math';
-import 'package:confetti/confetti.dart';
 import 'package:flutter/material.dart';
 import 'package:pathly/views/components/step.dart';
 import 'package:pathly/views/components/roadmap.dart';
-import 'package:percent_indicator/circular_percent_indicator.dart';
 
 
 
@@ -17,7 +14,7 @@ class FrontendRoadmapScreen extends StatelessWidget {
       'title': 'HTML & CSS Basics',
       'description': 'Learn HTML and CSS to structure and style webpages.',
       'progress': 0.5,
-      'color': Color(0xFF9FE870),
+      'color': const Color(0xFF9FE870),
       'icon': Icons.code,
       'completed': false,
     },
@@ -25,18 +22,20 @@ class FrontendRoadmapScreen extends StatelessWidget {
       'title': 'JavaScript Essentials',
       'description': 'Learn JavaScript to add interactivity.',
       'progress': 0.2,
-      'color': Color(0xFF70E8E8),
+      'color': const Color(0xFF70E8E8),
       'icon': Icons.javascript,
       'completed': false,
     },
   ];
+
+   FrontendRoadmapScreen({super.key});
 
 
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFF1A1A1A),
+      backgroundColor: const Color(0xFF1A1A1A),
       body: RoadmapWidget(
         title: 'Frontend Development Roadmap',
         description: 'Master the basics of frontend development step-by-step.',

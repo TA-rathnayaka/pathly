@@ -12,10 +12,12 @@ import 'package:pathly/providers/user_provider.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  runApp(PathlyApp());
+  runApp(const PathlyApp());
 }
 
 class PathlyApp extends StatelessWidget {
+  const PathlyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
@@ -39,8 +41,6 @@ class PathlyApp extends StatelessWidget {
               onPrimary: Colors.white,
               secondary: isDarkMode ? AppColors.darkAccent : AppColors.lightAccent,
               onSecondary: Colors.white,
-              background: isDarkMode ? AppColors.darkBackground : AppColors.lightBackground,
-              onBackground: Colors.white,
               surface: isDarkMode ? AppColors.darkCard : AppColors.lightCard,
               onSurface: Colors.white,
               error: Colors.red,

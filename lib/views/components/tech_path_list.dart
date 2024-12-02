@@ -7,7 +7,7 @@ class TechPathList extends StatelessWidget {
   final EdgeInsets? margin;
   final Color? backgroundColor;
 
-  TechPathList({
+  const TechPathList({super.key, 
     this.groupTitle,
     required this.techCards,
     this.margin,
@@ -17,7 +17,7 @@ class TechPathList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: margin ?? EdgeInsets.only(bottom: 20),
+      margin: margin ?? const EdgeInsets.only(bottom: 20),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -26,7 +26,7 @@ class TechPathList extends StatelessWidget {
               padding: const EdgeInsets.only(bottom: 5),
               child: Text(
                 groupTitle!,
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
             ),
           Container(
@@ -35,12 +35,12 @@ class TechPathList extends StatelessWidget {
               borderRadius: BorderRadius.circular(15),
             ),
             child: ListView.separated(
-              separatorBuilder: (context, index) => Divider(),
+              separatorBuilder: (context, index) => const Divider(),
               itemCount: techCards.length,
               itemBuilder: (context, index) => techCards[index],
               shrinkWrap: true,
               padding: EdgeInsets.zero,
-              physics: NeverScrollableScrollPhysics(),
+              physics: const NeverScrollableScrollPhysics(),
             ),
           ),
         ],

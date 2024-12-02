@@ -10,7 +10,7 @@ class StepWidget extends StatelessWidget {
   final bool isLocked;
   final VoidCallback? onTap;
 
-  StepWidget({
+  const StepWidget({super.key, 
     required this.title,
     required this.description,
     required this.icon,
@@ -23,9 +23,9 @@ class StepWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(bottom: 24),
+      margin: const EdgeInsets.only(bottom: 24),
       decoration: BoxDecoration(
-        color: Color(0xFF2A2A2A),
+        color: const Color(0xFF2A2A2A),
         borderRadius: BorderRadius.circular(20),
         border: Border.all(
           color: color.withOpacity(0.3),
@@ -39,14 +39,14 @@ class StepWidget extends StatelessWidget {
           child: InkWell(
             onTap: isLocked ? null : onTap,
             child: Padding(
-              padding: EdgeInsets.all(20),
+              padding: const EdgeInsets.all(20),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Row(
                     children: [
                       Container(
-                        padding: EdgeInsets.all(12),
+                        padding: const EdgeInsets.all(12),
                         decoration: BoxDecoration(
                           color: color.withOpacity(0.1),
                           shape: BoxShape.circle,
@@ -57,11 +57,11 @@ class StepWidget extends StatelessWidget {
                           size: 28,
                         ),
                       ),
-                      SizedBox(width: 16),
+                      const SizedBox(width: 16),
                       Expanded(
                         child: Text(
                           title,
-                          style: TextStyle(
+                          style: const TextStyle(
                             color: Colors.white,
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
@@ -70,19 +70,19 @@ class StepWidget extends StatelessWidget {
                       ),
                     ],
                   ),
-                  SizedBox(height: 8),
+                  const SizedBox(height: 8),
                   Text(
                     description,
                     style: TextStyle(color: Colors.grey[400], fontSize: 14),
                   ),
-                  SizedBox(height: 16),
+                  const SizedBox(height: 16),
                   CircularPercentIndicator(
                     radius: 40,
                     lineWidth: 6,
                     percent: progress,
                     center: Text(
                       '${(progress * 100).toStringAsFixed(0)}%',
-                      style: TextStyle(color: Colors.white),
+                      style: const TextStyle(color: Colors.white),
                     ),
                     progressColor: color,
                   ),

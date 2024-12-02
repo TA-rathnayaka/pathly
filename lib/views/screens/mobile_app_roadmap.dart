@@ -11,7 +11,7 @@ class MobileAppRoadmapScreen extends StatelessWidget {
       'title': 'Flutter Basics',
       'description': 'Learn the fundamentals of Flutter and Dart.',
       'progress': 0.3,
-      'color': Color(0xFF00BFAE),
+      'color': const Color(0xFF00BFAE),
       'icon': Icons.flutter_dash,
       'completed': false,
     },
@@ -19,17 +19,19 @@ class MobileAppRoadmapScreen extends StatelessWidget {
       'title': 'Building UIs in Flutter',
       'description': 'Learn how to design beautiful UIs with Flutter.',
       'progress': 0.4,
-      'color': Color(0xFF0288D1),
+      'color': const Color(0xFF0288D1),
       'icon': Icons.phone_android,
       'completed': false,
     },
     // Add more mobile app stages as needed
   ];
 
+  MobileAppRoadmapScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFF1A1A1A),
+      backgroundColor: const Color(0xFF1A1A1A),
       body: RoadmapWidget(
         title: 'Mobile App Development Roadmap',
         description: 'Master mobile app development with Flutter and Dart.',

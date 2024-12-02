@@ -27,10 +27,6 @@ class RoadmapProvider extends ChangeNotifier {
   Future<Roadmap> getRoadmap(String roadmapId) async {
     try {
       final fetchedRoadmap = await _roadmapService.getRoadmapById(roadmapId);
-      // If the roadmap is not found or something goes wrong
-      if (fetchedRoadmap == null) {
-        throw Exception('Roadmap not found');
-      }
       return fetchedRoadmap;
     } catch (e) {
       throw Exception('Failed to fetch roadmap with ID $roadmapId: $e');
@@ -38,10 +34,10 @@ class RoadmapProvider extends ChangeNotifier {
   }
 
   // Add a new roadmap both locally and on the server
-  Future<String> addRoadmap(String title, String description, IconData icon) async {
+  Future<String> addRoadmap(String title, String description, IconData icon, String imageUrl) async {
     try {
       // Add the roadmap to Firestore using the service method and get the roadmapId
-      final roadmapId = await _roadmapService.addRoadmap(title, description, icon);
+      final roadmapId = await _roadmapService.addRoadmap(title, description, icon, imageUrl);
 
       // After adding to Firestore, create a new Roadmap object locally with the generated ID
       final newRoadmap = Roadmap(
@@ -49,6 +45,7 @@ class RoadmapProvider extends ChangeNotifier {
         title: title,
         description: description,
         icon: icon,
+        imageUrl: imageUrl, // Add imageUrl to the Roadmap object
         stages: [],  // Initialize with no stages
       );
 

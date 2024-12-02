@@ -11,7 +11,7 @@ class DataScienceRoadmapScreen extends StatelessWidget {
       'title': 'Python Basics',
       'description': 'Learn the fundamentals of Python programming.',
       'progress': 0.4,
-      'color': Color(0xFF42A5F5),
+      'color': const Color(0xFF42A5F5),
       'icon': Icons.code,
       'completed': false,
     },
@@ -19,17 +19,19 @@ class DataScienceRoadmapScreen extends StatelessWidget {
       'title': 'Data Analysis with Pandas',
       'description': 'Learn how to analyze data using the Pandas library.',
       'progress': 0.5,
-      'color': Color(0xFF3949AB),
+      'color': const Color(0xFF3949AB),
       'icon': Icons.data_usage,
       'completed': false,
     },
     // Add more data science stages as needed
   ];
 
+  DataScienceRoadmapScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFF1A1A1A),
+      backgroundColor: const Color(0xFF1A1A1A),
       body: RoadmapWidget(
         title: 'Data Science Roadmap',
         description: 'Learn data analysis, machine learning, and AI.',

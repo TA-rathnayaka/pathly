@@ -10,7 +10,7 @@ class BigUserCard extends StatelessWidget {
   final Widget? userMoreInfo;
   final ImageProvider userProfilePic;
 
-  BigUserCard({
+  const BigUserCard({super.key, 
     this.backgroundColor,
     this.settingColor,
     this.cardRadius = 30,
@@ -26,7 +26,7 @@ class BigUserCard extends StatelessWidget {
     var mediaQueryHeight = MediaQuery.of(context).size.height;
     return Container(
       height: mediaQueryHeight / 4,
-      margin: EdgeInsets.only(bottom: 20),
+      margin: const EdgeInsets.only(bottom: 20),
       decoration: BoxDecoration(
         color: backgroundColor ?? Theme.of(context).cardColor,
         borderRadius:
@@ -49,7 +49,7 @@ class BigUserCard extends StatelessWidget {
             ),
           ),
           Container(
-            margin: EdgeInsets.all(10),
+            margin: const EdgeInsets.all(10),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: (cardActionWidget != null)

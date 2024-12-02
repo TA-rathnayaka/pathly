@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:pathly/services/auth_service.dart';
-import 'package:pathly/views/screens/dashboard.dart';
 import 'package:pathly/views/screens/login_screen.dart';
 import 'package:pathly/views/screens/main_screen.dart';
 
 class SignUpScreen extends StatefulWidget {
   static const String id = '/signup_screen';
+
+  const SignUpScreen({super.key});
 
   @override
   _SignUpScreenState createState() => _SignUpScreenState();
@@ -55,9 +56,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 flex: 3,
                 child: Container(
                   padding: const EdgeInsets.symmetric(horizontal: 24),
-                  child: Column(
+                  child: const Column(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: const [
+                    children: [
                       Icon(Icons.person_add_alt_1_rounded,
                           size: 80, color: Color(0xFF9FE870)),
                       SizedBox(height: 24),

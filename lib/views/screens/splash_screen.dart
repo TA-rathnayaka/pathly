@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:pathly/views/screens/dashboard.dart';
 import 'package:pathly/views/screens/login_screen.dart';
 import 'package:pathly/services/auth_service.dart';
 import 'package:pathly/views/screens/main_screen.dart';
 
 class SplashScreen extends StatelessWidget {
-  static final String id = '/';
+  static const String id = '/';
+
+  const SplashScreen({super.key});
 
   Future<void> _navigateToLoginOrDashboard(BuildContext context) async {
     bool isAuthenticated = await AuthService().isUserAuthenticated();
@@ -26,7 +27,7 @@ class SplashScreen extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.only(right: 16.0, bottom: 32),
           child: Container(
-            child: Text(
+            child: const Text(
               "Get Started",
               style: TextStyle(
                 color: Colors.white,
@@ -40,14 +41,14 @@ class SplashScreen extends StatelessWidget {
       body: Container(
         height: double.infinity,
         width: double.infinity,
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           image: DecorationImage(
             image: AssetImage("images/splash.jpg"),
             fit: BoxFit.fill,
           ),
         ),
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
+        child: const Padding(
+          padding: EdgeInsets.all(16.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,

@@ -12,7 +12,7 @@ class TechCard extends StatelessWidget {
   final Color iconBackgroundColor;
   final Color iconColor;
 
-  TechCard({
+  const TechCard({super.key, 
     required this.icon,
     required this.title,
     this.subtitle,
@@ -36,10 +36,10 @@ class TechCard extends StatelessWidget {
       child: ClipRRect(
         borderRadius: BorderRadius.circular(15),
         child: ListTile(
-          contentPadding: EdgeInsets.symmetric(vertical: 10, horizontal: 16),
-          tileColor: isDarkMode ? Color(0xFF2A2A2A) : Colors.white,
+          contentPadding: const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
+          tileColor: isDarkMode ? const Color(0xFF2A2A2A) : Colors.white,
           leading: Container(
-            padding: EdgeInsets.all(8),
+            padding: const EdgeInsets.all(8),
             decoration: BoxDecoration(
               color: iconBackgroundColor,
               shape: BoxShape.circle,

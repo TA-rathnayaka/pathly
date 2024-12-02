@@ -1,8 +1,6 @@
-import 'package:confetti/confetti.dart';
 import 'package:flutter/material.dart';
 import 'package:pathly/views/components/step.dart';
 import 'package:pathly/views/components/roadmap.dart';
-import 'package:percent_indicator/circular_percent_indicator.dart';
 
 
 
@@ -16,7 +14,7 @@ class BackendRoadmapScreen extends StatelessWidget {
       'title': 'Node.js Basics',
       'description': 'Learn the basics of Node.js to build server-side applications.',
       'progress': 0.3,
-      'color': Color(0xFF1E88E5),
+      'color': const Color(0xFF1E88E5),
       'icon': Icons.code,
       'completed': false,
     },
@@ -24,17 +22,19 @@ class BackendRoadmapScreen extends StatelessWidget {
       'title': 'Express Framework',
       'description': 'Learn to use Express.js to create APIs and handle requests.',
       'progress': 0.4,
-      'color': Color(0xFF039BE5),
+      'color': const Color(0xFF039BE5),
       'icon': Icons.settings_input_component,
       'completed': false,
     },
     // Add more backend stages as needed
   ];
 
+  BackendRoadmapScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFF1A1A1A),
+      backgroundColor: const Color(0xFF1A1A1A),
       body: RoadmapWidget(
         title: 'Backend Development Roadmap',
         description: 'Learn server-side programming and backend frameworks.',
