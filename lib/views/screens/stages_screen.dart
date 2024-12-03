@@ -10,30 +10,18 @@ import 'package:pathly/views/components/stage_card_list.dart';
 class StagePage extends StatelessWidget {
   final String roadmapId;
 
-  StagePage({required this.roadmapId});
+  StagePage({super.key, required this.roadmapId});
 
   final TextEditingController _stageTitleController = TextEditingController();
   final TextEditingController _stageDescriptionController = TextEditingController();
-  DateTime? _stageDueDate;
+  final TextEditingController _resourceUrlController = TextEditingController(); // Controller for the resource URL
   final GlobalKey<FormState> _stageFormKey = GlobalKey<FormState>();
   int? _editingStageIndex;
-
-  Future<void> _selectDate(BuildContext context) async {
-    final DateTime? picked = await showDatePicker(
-      context: context,
-      initialDate: _stageDueDate ?? DateTime.now(),
-      firstDate: DateTime(2000),
-      lastDate: DateTime(2101),
-    );
-    if (picked != null) {
-      _stageDueDate = picked;
-    }
-  }
 
   void _fillFormForEdit(RoadmapStage stage, int index) {
     _stageTitleController.text = stage.title;
     _stageDescriptionController.text = stage.description;
-    _stageDueDate = stage.dueDate;
+    _resourceUrlController.text = stage.resourceUrl ?? ''; // Fill resource URL
     _editingStageIndex = index;
   }
 
@@ -47,13 +35,14 @@ class StagePage extends StatelessWidget {
         id: '',
         title: '',
         description: '',
+        imageUrl: '',
         icon: Icons.map,
       ),
     );
 
     if (roadmap.description.isEmpty) {
       return Scaffold(
-        appBar: AppBar(title: Text('Add Stages')),
+        appBar: AppBar(title: const Text('Add Stages')),
         body: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -83,7 +72,7 @@ class StagePage extends StatelessWidget {
     }
 
     return Scaffold(
-      appBar: AppBar(title: Text('Add Stages for')),
+      appBar: AppBar(title: Text('Add Stages for ${roadmap.title}')),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -108,7 +97,7 @@ class StagePage extends StatelessWidget {
                         borderRadius: BorderRadius.circular(12.0),
                         borderSide: BorderSide.none,
                       ),
-                      contentPadding: EdgeInsets.symmetric(horizontal: 16),
+                      contentPadding: const EdgeInsets.symmetric(horizontal: 16),
                     ),
                     validator: (value) {
                       if (value == null || value.isEmpty) {
@@ -135,7 +124,7 @@ class StagePage extends StatelessWidget {
                         borderRadius: BorderRadius.circular(12.0),
                         borderSide: BorderSide.none,
                       ),
-                      contentPadding: EdgeInsets.symmetric(horizontal: 16),
+                      contentPadding: const EdgeInsets.symmetric(horizontal: 16),
                     ),
                     validator: (value) {
                       if (value == null || value.isEmpty) {
@@ -146,32 +135,23 @@ class StagePage extends StatelessWidget {
                   ),
                   const SizedBox(height: 20),
 
-                  // Due date picker field
-                  GestureDetector(
-                    onTap: () => _selectDate(context),
-                    child: AbsorbPointer(
-                      child: TextFormField(
-                        decoration: InputDecoration(
-                          filled: true,
-                          fillColor: isDarkMode
-                              ? AppColors.darkCard.withOpacity(0.85)
-                              : Colors.grey[200]!.withOpacity(0.85),
-                          hintText: _stageDueDate == null
-                              ? 'Select Due Date'
-                              : _stageDueDate!
-                              .toLocal()
-                              .toString()
-                              .split(' ')[0],
-                          hintStyle: isDarkMode
-                              ? AppTextStyles.searchHintDark
-                              : AppTextStyles.searchHintLight,
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(12.0),
-                            borderSide: BorderSide.none,
-                          ),
-                          contentPadding: EdgeInsets.symmetric(horizontal: 16),
-                        ),
+                  // TextFormField for entering the resource URL
+                  TextFormField(
+                    controller: _resourceUrlController,
+                    decoration: InputDecoration(
+                      filled: true,
+                      fillColor: isDarkMode
+                          ? AppColors.darkCard.withOpacity(0.85)
+                          : Colors.grey[200]!.withOpacity(0.85),
+                      hintText: 'Enter Resource URL (optional)',
+                      hintStyle: isDarkMode
+                          ? AppTextStyles.searchHintDark
+                          : AppTextStyles.searchHintLight,
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12.0),
+                        borderSide: BorderSide.none,
                       ),
+                      contentPadding: const EdgeInsets.symmetric(horizontal: 16),
                     ),
                   ),
                   const SizedBox(height: 20),
@@ -188,7 +168,7 @@ class StagePage extends StatelessWidget {
                             RoadmapStage(
                               title: _stageTitleController.text,
                               description: _stageDescriptionController.text,
-                              dueDate: _stageDueDate,
+                              resourceUrl: _resourceUrlController.text, // Include resource URL
                             ),
                           );
                         } else {
@@ -198,14 +178,14 @@ class StagePage extends StatelessWidget {
                             RoadmapStage(
                               title: _stageTitleController.text,
                               description: _stageDescriptionController.text,
-                              dueDate: _stageDueDate,
+                              resourceUrl: _resourceUrlController.text, // Include resource URL
                             ),
                           );
                         }
 
                         _stageTitleController.clear();
                         _stageDescriptionController.clear();
-                        _stageDueDate = null;
+                        _resourceUrlController.clear();
                         _editingStageIndex = null;
                       }
                     },
@@ -214,7 +194,7 @@ class StagePage extends StatelessWidget {
                       foregroundColor: Colors.white,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12.0),
-                        side: BorderSide(
+                        side: const BorderSide(
                           color: Colors.white,
                           width: 1.5,
                         ),
@@ -236,13 +216,14 @@ class StagePage extends StatelessWidget {
                 style: TextStyle(fontSize: 16, color: Colors.grey),
               ),
             )
-                : StagePathList(
+                : StageCardList(
               groupTitle: 'Stages',
               stageCards: roadmap.stages.map((stage) {
                 return StageCard(
                   icon: Icons.check_circle,
                   title: stage.title,
                   description: stage.description,
+                  resourceUrl: stage.resourceUrl,
                   onEdit: () {
                     // Fill the form with stage details for editing
                     _fillFormForEdit(stage, roadmap.stages.indexOf(stage));

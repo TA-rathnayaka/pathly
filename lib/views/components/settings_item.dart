@@ -15,7 +15,7 @@ class SettingsItem extends StatelessWidget {
   final int? subtitleMaxLine;
   final TextOverflow? overflow;
 
-  SettingsItem({
+  const SettingsItem({super.key, 
     required this.icons,
     this.iconStyle,
     required this.title,
@@ -45,7 +45,7 @@ class SettingsItem extends StatelessWidget {
             color: iconStyle!.backgroundColor,
             borderRadius: BorderRadius.circular(iconStyle!.borderRadius!),
           ),
-          padding: EdgeInsets.all(5),
+          padding: const EdgeInsets.all(5),
           child: Icon(
             icons,
             size: SettingsScreenUtils.settingsGroupIconSize,
@@ -53,7 +53,7 @@ class SettingsItem extends StatelessWidget {
           ),
         )
             : Padding(
-          padding: EdgeInsets.all(5),
+          padding: const EdgeInsets.all(5),
           child: Icon(
             icons,
             size: SettingsScreenUtils.settingsGroupIconSize,

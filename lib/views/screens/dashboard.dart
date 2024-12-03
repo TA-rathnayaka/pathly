@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:pathly/config/app_theme.dart';
 import 'package:pathly/providers/user_provider.dart';
 import 'package:pathly/views/components/course_card.dart';
-import 'package:pathly/views/components/daily_tip_card.dart';
 import 'package:pathly/views/screens/_all.dart';
-import 'package:pathly/services/roadmap_service.dart';
 import 'package:pathly/providers/roadmap_provider.dart';
 import 'package:provider/provider.dart'; // Ensure you import provider package
 
 class Dashboard extends StatefulWidget {
   static const String id = '/dashboard-screen';
+
+  const Dashboard({super.key});
 
   @override
   _DashboardState createState() => _DashboardState();
@@ -35,7 +35,7 @@ class _DashboardState extends State<Dashboard> {
             gradient: LinearGradient(
               begin: Alignment.topLeft,
               end: Alignment.topRight,
-              stops: [0.3, 0.7],
+              stops: const [0.3, 0.7],
               colors: [
                 isDarkMode
                     ? AppColors.darkBackground
@@ -45,7 +45,7 @@ class _DashboardState extends State<Dashboard> {
             ),
           ),
           child: SingleChildScrollView(
-            physics: ClampingScrollPhysics(),
+            physics: const ClampingScrollPhysics(),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
@@ -53,7 +53,7 @@ class _DashboardState extends State<Dashboard> {
                 Container(
                   width: double.infinity,
                   height: 280,
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                     borderRadius: BorderRadius.only(
                       bottomLeft: Radius.circular(40),
                       bottomRight: Radius.circular(40),
@@ -68,7 +68,7 @@ class _DashboardState extends State<Dashboard> {
                       Positioned.fill(
                         child: Container(
                           decoration: BoxDecoration(
-                            borderRadius: BorderRadius.only(
+                            borderRadius: const BorderRadius.only(
                               bottomLeft: Radius.circular(40),
                               bottomRight: Radius.circular(40),
                             ),
@@ -82,7 +82,7 @@ class _DashboardState extends State<Dashboard> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
-                            SizedBox(height: 108),
+                            const SizedBox(height: 108),
                             Text(
                               "All paths",
                               style: AppTextStyles.headingDark.copyWith(
@@ -92,12 +92,12 @@ class _DashboardState extends State<Dashboard> {
                                   Shadow(
                                     blurRadius: 10.0,
                                     color: Colors.black.withOpacity(0.5),
-                                    offset: Offset(0, 2),
+                                    offset: const Offset(0, 2),
                                   ),
                                 ],
                               ),
                             ),
-                            SizedBox(height: 16),
+                            const SizedBox(height: 16),
                             Text(
                               "Please select a study path",
                               style: AppTextStyles.subheadingDark.copyWith(
@@ -107,7 +107,7 @@ class _DashboardState extends State<Dashboard> {
                                   Shadow(
                                     blurRadius: 10.0,
                                     color: Colors.black.withOpacity(0.5),
-                                    offset: Offset(0, 2),
+                                    offset: const Offset(0, 2),
                                   ),
                                 ],
                               ),
@@ -146,7 +146,7 @@ class _DashboardState extends State<Dashboard> {
                         borderRadius: BorderRadius.circular(50.0),
                         borderSide: BorderSide.none,
                       ),
-                      contentPadding: EdgeInsets.symmetric(horizontal: 20),
+                      contentPadding: const EdgeInsets.symmetric(horizontal: 20),
                     ),
                   ),
                 ),
@@ -183,9 +183,9 @@ class _DashboardState extends State<Dashboard> {
                       return GridView.builder(
                         shrinkWrap: true,
                         // So it doesn't take up all screen space
-                        physics: NeverScrollableScrollPhysics(),
+                        physics: const NeverScrollableScrollPhysics(),
                         // Disable scrolling
-                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: 2, // 2 columns in the grid
                           crossAxisSpacing: 16.0, // Space between columns
                           mainAxisSpacing: 16.0, // Space between rows
@@ -200,7 +200,7 @@ class _DashboardState extends State<Dashboard> {
                               key: UniqueKey(),
                               title: roadmap.title,
                               count: "${roadmap.stages.length}",
-                              imagePath: "images/1.jpg",
+                              imagePath: roadmap.imageUrl ??"images/1.jpg",
                               // Replace with actual image path
                               route: FrontendRoadmapScreen.id,
                               onPressed: () {

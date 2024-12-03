@@ -5,8 +5,8 @@ class StepTile extends StatelessWidget {
   final bool isCompleted;
   final Function(bool?)? onCheckboxChanged;
 
-  StepTile(
-      {required this.stepTitle,
+  const StepTile(
+      {super.key, required this.stepTitle,
       required this.isCompleted,
       this.onCheckboxChanged});
 

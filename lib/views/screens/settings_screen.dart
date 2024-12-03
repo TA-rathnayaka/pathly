@@ -9,7 +9,9 @@ import 'package:pathly/views/components/icon_style.dart'; // Ensure this exists
 import 'package:pathly/views/components/simple_user_card.dart'; // Ensure this exists
 
 class SettingsScreen extends StatelessWidget {
-  static final String id = '/settings_screen';
+  static const String id = '/settings_screen';
+
+  const SettingsScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +44,7 @@ class SettingsScreen extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 16.0),
                 child: SimpleUserCard(
-                  userProfilePic: AssetImage('images/user_profile.jpg'),
+                  userProfilePic: const AssetImage('images/user_profile.jpg'),
                   userName: userProvider.email ?? "guest user", // Use userProvider's userName
                   userMoreInfo: Text(
                     'john.doe@example.com', // You can update this from the user provider if necessary

@@ -12,8 +12,8 @@ class SettingsGroup extends StatelessWidget {
   // Icons size
   final double? iconItemSize;
 
-  SettingsGroup(
-      {this.settingsGroupTitle,
+  const SettingsGroup(
+      {super.key, this.settingsGroupTitle,
       this.settingsGroupTitleStyle,
       required this.items,
       this.backgroundColor,
@@ -22,11 +22,12 @@ class SettingsGroup extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (this.iconItemSize != null)
+    if (iconItemSize != null) {
       SettingsScreenUtils.settingsGroupIconSize = iconItemSize;
+    }
 
     return Container(
-      margin: margin ?? EdgeInsets.only(bottom: 20),
+      margin: margin ?? const EdgeInsets.only(bottom: 20),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -37,7 +38,7 @@ class SettingsGroup extends StatelessWidget {
                   child: Text(
                     settingsGroupTitle!,
                     style: (settingsGroupTitleStyle == null)
-                        ? TextStyle(fontSize: 25, fontWeight: FontWeight.bold)
+                        ? const TextStyle(fontSize: 25, fontWeight: FontWeight.bold)
                         : settingsGroupTitleStyle,
                   ),
                 )
@@ -50,7 +51,7 @@ class SettingsGroup extends StatelessWidget {
             ),
             child: ListView.separated(
               separatorBuilder: (context, index) {
-                return Divider();
+                return const Divider();
               },
               itemCount: items.length,
               itemBuilder: (BuildContext context, int index) {
@@ -58,7 +59,7 @@ class SettingsGroup extends StatelessWidget {
               },
               shrinkWrap: true,
               padding: EdgeInsets.zero,
-              physics: ScrollPhysics(),
+              physics: const ScrollPhysics(),
             ),
           ),
         ],

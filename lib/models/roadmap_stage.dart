@@ -1,11 +1,11 @@
 class RoadmapStage {
   final String title;
   final String description;
-  final DateTime? dueDate;
+  final String? resourceUrl; // Resource URL remains
 
   RoadmapStage({
     required this.title,
     required this.description,
-    this.dueDate,
+    this.resourceUrl, // Resource URL is optional
   });
 }

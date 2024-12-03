@@ -7,17 +7,19 @@ import 'package:pathly/providers/roadmap_provider.dart'; // Import RoadmapProvid
 import 'package:pathly/providers/user_provider.dart'; // Import UserProvider
 
 class TechPathScreen extends StatelessWidget {
+  const TechPathScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     // Listen to the UserProvider to get enrolled roadmaps
     return Scaffold(
-      appBar: AppBar(title: Text("Tech Path Progress")),
+      appBar: AppBar(title: const Text("Tech Path Progress")),
       body: Padding(
-        padding: EdgeInsets.all(16),
+        padding: const EdgeInsets.all(16),
         child: Consumer<UserProvider>(
           builder: (context, userProvider, child) {
             if (userProvider.enrolledRoadmapIds.isEmpty) {
-              return Center(
+              return const Center(
                 child: Text('You are not enrolled in any roadmaps.'),
               );
             }
@@ -29,7 +31,7 @@ class TechPathScreen extends StatelessWidget {
                   future: _fetchEnrolledRoadmaps(userProvider.enrolledRoadmapIds, roadmapProvider),
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
-                      return Center(child: CircularProgressIndicator());
+                      return const Center(child: CircularProgressIndicator());
                     }
 
                     if (snapshot.hasError) {
@@ -37,7 +39,7 @@ class TechPathScreen extends StatelessWidget {
                     }
 
                     if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                      return Center(child: Text('No roadmaps found.'));
+                      return const Center(child: Text('No roadmaps found.'));
                     }
 
                     // Display enrolled roadmaps

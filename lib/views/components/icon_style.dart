@@ -11,8 +11,8 @@ class IconStyle {
     withBackground = true,
     backgroundColor = Colors.blue,
     borderRadius = 8,
-  })  : this.iconsColor = iconsColor,
-        this.withBackground = withBackground,
-        this.backgroundColor = backgroundColor,
-        this.borderRadius = double.parse(borderRadius!.toString());
+  })  : iconsColor = iconsColor,
+        withBackground = withBackground,
+        backgroundColor = backgroundColor,
+        borderRadius = double.parse(borderRadius!.toString());
 }

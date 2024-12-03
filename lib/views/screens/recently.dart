@@ -11,19 +11,21 @@ class Recently extends StatelessWidget {
 
   final List colors = [Colors.blue, Colors.black, Colors.green];
 
+  Recently({super.key});
+
   @override
   Widget build(BuildContext context) {
-    var rng = new math.Random.secure();
+    var rng = math.Random.secure();
     return ListTile(
       leading: Container(
         decoration: BoxDecoration(
-            image: DecorationImage(
+            image: const DecorationImage(
                 image: AssetImage(
                   "assets/1.jpg",
                 ),
                 fit: BoxFit.cover),
             borderRadius: BorderRadius.circular(10),
-            boxShadow: <BoxShadow>[
+            boxShadow: const <BoxShadow>[
               BoxShadow(
                   color: Colors.grey,
                   blurRadius: 15.0,
@@ -39,7 +41,7 @@ class Recently extends StatelessWidget {
         children: <Widget>[
           Text(
             title[rng.nextInt(3)],
-            style: TextStyle(
+            style: const TextStyle(
               color: Colors.black,
               fontWeight: FontWeight.w700,
               letterSpacing: 1,
@@ -48,10 +50,10 @@ class Recently extends StatelessWidget {
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
           ),
-          SizedBox(
+          const SizedBox(
             height: 14,
           ),
-          FAProgressBar(
+          const FAProgressBar(
             size: 4,
             currentValue: 30,
             progressColor: Colors.green,
@@ -70,7 +72,7 @@ class Recently extends StatelessWidget {
               overflow: TextOverflow.ellipsis,
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 2,
           ),
         ],

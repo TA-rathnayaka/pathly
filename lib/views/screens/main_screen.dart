@@ -13,14 +13,16 @@ class MainScreen extends StatelessWidget {
 
   // Wrapping pages with individual ChangeNotifierProvider if needed
   final List<Widget> _pages = [
-    Dashboard(),
-    TechPathScreen(),
+    const Dashboard(),
+    const TechPathScreen(),
     ChangeNotifierProvider(
       create: (_) => CreateScreenState(), // Add state specific to CreatePathScreen
       child: CreatePathScreen(),
     ),
-    SettingsScreen(),
+    const SettingsScreen(),
   ];
+
+  MainScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +32,7 @@ class MainScreen extends StatelessWidget {
           body: (navigatorProvider.currentIndex >= 0 &&
               navigatorProvider.currentIndex < _pages.length)
               ? _pages[navigatorProvider.currentIndex]
-              : Dashboard(),
+              : const Dashboard(),
           bottomNavigationBar: BottomNavbar(
             currentIndex: navigatorProvider.currentIndex,
             onTap: (int index) {

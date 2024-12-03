@@ -1,10 +1,8 @@
-import 'package:flutter/animation.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter/material.dart';
 
 class FAProgressBar extends StatefulWidget {
   const FAProgressBar({
-    Key? key,
+    super.key,
     this.currentValue = 0,
     this.maxValue = 100,
     this.size = 12,
@@ -17,7 +15,7 @@ class FAProgressBar extends StatefulWidget {
     this.changeColorValue,
     this.changeProgressColor = const Color(0xFF5F4B8B),
     this.displayText,
-  }) : super(key: key);
+  });
 
   final int currentValue;
   final int maxValue;
@@ -89,10 +87,10 @@ class _FAProgressBarState extends State<FAProgressBar>
 
 class AnimatedProgressBar extends AnimatedWidget {
   const AnimatedProgressBar({
-    Key? key,
+    super.key,
     required Animation<double> animation,
     required this.progressBarWidget,
-  }) : super(key: key, listenable: animation);
+  }) : super(listenable: animation);
 
   final FAProgressBar progressBarWidget;
 

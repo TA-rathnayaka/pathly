@@ -33,7 +33,7 @@ const kTertiaryButtonTextStyle = TextStyle(
   color: Colors.white,
 );
 
-final InputDecoration kTextFieldDecoration = InputDecoration(
+const InputDecoration kTextFieldDecoration = InputDecoration(
   filled: true,
   fillColor: kTextFieldBackgroundColor,
   border: OutlineInputBorder(

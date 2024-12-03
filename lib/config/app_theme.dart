@@ -18,19 +18,19 @@ class AppColors {
 
 // Define text styles for consistent typography
 class AppTextStyles {
-  static TextStyle headingLight = TextStyle(
+  static TextStyle headingLight = const TextStyle(
     color: Colors.black,
     fontSize: 32,
     fontWeight: FontWeight.w700,
   );
 
-  static TextStyle headingDark = TextStyle(
+  static TextStyle headingDark = const TextStyle(
     color: Colors.white,
     fontSize: 32,
     fontWeight: FontWeight.w700,
   );
 
-  static TextStyle subheadingLight = TextStyle(
+  static TextStyle subheadingLight = const TextStyle(
     color: Colors.black38,
     fontSize: 18,
     fontWeight: FontWeight.bold,
@@ -42,25 +42,25 @@ class AppTextStyles {
     fontWeight: FontWeight.bold,
   );
 
-  static TextStyle searchHintLight = TextStyle(
+  static TextStyle searchHintLight = const TextStyle(
     fontSize: 18,
     color: Colors.black45,
     fontWeight: FontWeight.w600,
   );
 
-  static TextStyle searchHintDark = TextStyle(
+  static TextStyle searchHintDark = const TextStyle(
     fontSize: 18,
     color: Colors.white70,
     fontWeight: FontWeight.w600,
   );
 
-  static TextStyle categoryTitleLight = TextStyle(
+  static TextStyle categoryTitleLight = const TextStyle(
     color: Colors.black,
     fontSize: 18,
     fontWeight: FontWeight.w700,
   );
 
-  static TextStyle categoryTitleDark = TextStyle(
+  static TextStyle categoryTitleDark = const TextStyle(
     color: Colors.white,
     fontSize: 18,
     fontWeight: FontWeight.w700,
