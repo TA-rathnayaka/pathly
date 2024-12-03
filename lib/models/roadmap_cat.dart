@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class RoadmapCategory {
   final String title;
   final String description;
-  final List<String> subtopics;
+  final List<String> subtopics;//list<class>
   final Color color;
   final IconData icon;
 
