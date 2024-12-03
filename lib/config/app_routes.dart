@@ -7,7 +7,6 @@ final routes = {
   LoginScreen.id: (context) => const LoginScreen(),
   SignUpScreen.id: (context) => const SignUpScreen(),
   MainScreen.id: (context) =>  MainScreen(),
-  FrontendRoadmapScreen.id: (context) => FrontendRoadmapScreen(),
   SettingsScreen.id: (context) => const SettingsScreen(),
   CreatePathScreen.id: (context)=> CreatePathScreen()
 };

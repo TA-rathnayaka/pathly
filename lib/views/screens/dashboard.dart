@@ -202,7 +202,7 @@ class _DashboardState extends State<Dashboard> {
                               count: "${roadmap.stages.length}",
                               imagePath: roadmap.imageUrl ??"images/1.jpg",
                               // Replace with actual image path
-                              route: FrontendRoadmapScreen.id,
+                              route: LoginScreen.id,
                               onPressed: () {
                                 final provider = Provider.of<UserProvider>(
                                     context,
