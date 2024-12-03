@@ -8,11 +8,14 @@ class TechCard extends StatelessWidget {
   final TextStyle? subtitleStyle;
   final Widget? trailing;
   final VoidCallback? onTap;
+  final VoidCallback? onEdit;
+  final VoidCallback? onDelete;
   final double iconSize;
   final Color iconBackgroundColor;
   final Color iconColor;
 
-  const TechCard({super.key, 
+  const TechCard({
+    super.key,
     required this.icon,
     required this.title,
     this.subtitle,
@@ -20,6 +23,8 @@ class TechCard extends StatelessWidget {
     this.subtitleStyle,
     this.trailing,
     this.onTap,
+    this.onEdit,
+    this.onDelete,
     this.iconSize = 24.0,
     required this.iconBackgroundColor,
     required this.iconColor,
@@ -52,7 +57,8 @@ class TechCard extends StatelessWidget {
           ),
           title: Text(
             title,
-            style: titleStyle ?? TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: textColor),
+            style: titleStyle ??
+                TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: textColor),
             overflow: TextOverflow.ellipsis,
             maxLines: 1,
           ),
@@ -64,7 +70,22 @@ class TechCard extends StatelessWidget {
             maxLines: 2,
           )
               : null,
-          trailing: trailing ?? Icon(Icons.navigate_next, color: isDarkMode ? Colors.white : Colors.black),
+          trailing: trailing ??
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  if (onEdit != null)
+                    IconButton(
+                      icon: const Icon(Icons.edit, color: Colors.black54),
+                      onPressed: onEdit,
+                    ),
+                  if (onDelete != null)
+                    IconButton(
+                      icon: const Icon(Icons.delete, color: Colors.black54),
+                      onPressed: onDelete,
+                    ),
+                ],
+              ),
         ),
       ),
     );

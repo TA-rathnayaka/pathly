@@ -38,6 +38,43 @@ class RoadmapService {
     }
   }
 
+
+
+  Future<void> deleteRoadmap(String roadmapId) async {
+    try {
+      final roadmapDocRef = _firestore.collection('roadmaps').doc(roadmapId);
+
+      // Delete the roadmap document from Firestore
+      await roadmapDocRef.delete();
+    } catch (e) {
+      throw Exception('Failed to delete roadmap: $e');
+    }
+  }
+
+
+  Future<void> updateRoadmap(
+      String roadmapId,
+      String updatedTitle,
+      String updatedDescription,
+      IconData updatedIcon,
+      String updatedImageUrl,
+      ) async {
+    try {
+      final roadmapDocRef = _firestore.collection('roadmaps').doc(roadmapId);
+
+      await roadmapDocRef.update({
+        'title': updatedTitle,
+        'description': updatedDescription,
+        'icon': updatedIcon.codePoint,
+        'imageUrl': updatedImageUrl,
+      });
+    } catch (e) {
+      throw Exception('Failed to update roadmap in Firestore: $e');
+    }
+  }
+
+
+
   // Fetch a specific roadmap by its ID
   Future<Roadmap> getRoadmapById(String roadmapId) async {
     try {

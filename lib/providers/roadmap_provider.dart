@@ -14,6 +14,9 @@ class RoadmapProvider extends ChangeNotifier {
 
   List<Roadmap> get roadmaps => List.unmodifiable(_roadmaps);
 
+
+
+
   // Fetch all roadmaps from Firebase and keep a local copy
   Future<void> fetchRoadmaps() async {
     try {
@@ -32,6 +35,54 @@ class RoadmapProvider extends ChangeNotifier {
       throw Exception('Failed to fetch roadmap with ID $roadmapId: $e');
     }
   }
+
+  Future<void> deleteRoadmap(String roadmapId) async {
+    try {
+      // Step 1: Remove the roadmap from the backend (Firestore)
+      await _roadmapService.deleteRoadmap(roadmapId);
+
+      // Step 2: Remove the roadmap from the local list
+      _roadmaps.removeWhere((roadmap) => roadmap.id == roadmapId);
+
+      // Step 3: Notify listeners to update the UI
+      notifyListeners();
+    } catch (e) {
+      throw Exception('Failed to delete roadmap: $e');
+    }
+  }
+
+  // Update a specific roadmap (title, description, icon, and imageUrl) both locally and in Firestore
+  Future<void> updateRoadmap(
+      String roadmapId,
+      String updatedTitle,
+      String updatedDescription,
+      IconData updatedIcon,
+      String updatedImageUrl,
+      ) async {
+    try {
+      // Step 1: Update the Firestore document
+      await _roadmapService.updateRoadmap(roadmapId, updatedTitle, updatedDescription, updatedIcon, updatedImageUrl);
+
+      // Step 2: Update the local list
+      final roadmapIndex = _roadmaps.indexWhere((r) => r.id == roadmapId);
+      if (roadmapIndex != -1) {
+        _roadmaps[roadmapIndex] = Roadmap(
+          id: roadmapId,
+          title: updatedTitle,
+          description: updatedDescription,
+          icon: updatedIcon,
+          imageUrl: updatedImageUrl,
+          stages: _roadmaps[roadmapIndex].stages, // Keep the same stages
+        );
+        notifyListeners();
+      } else {
+        throw Exception('Roadmap with ID $roadmapId not found');
+      }
+    } catch (e) {
+      throw Exception('Failed to update roadmap: $e');
+    }
+  }
+
 
   // Add a new roadmap both locally and on the server
   Future<String> addRoadmap(String title, String description, IconData icon, String imageUrl) async {
