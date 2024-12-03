@@ -158,26 +158,34 @@ class RoadmapProvider extends ChangeNotifier {
   }
 
   // Remove a stage from a specific roadmap, both locally and in the backend
-  void removeStageFromRoadmap(String roadmapTitle, int stageIndex) async {
+  void removeStageFromRoadmap(String roadmapId, int stageIndex) async {
+
     try {
-      final roadmapIndex = _roadmaps.indexWhere((r) => r.title == roadmapTitle);
+
+      final roadmapIndex = _roadmaps.indexWhere((r) => r.id == roadmapId);
+      print(roadmapId);
+
+
       if (roadmapIndex != -1) {
+
         _roadmaps[roadmapIndex].stages.removeAt(stageIndex);
-        await _roadmapService.removeStageFromRoadmap(roadmapTitle, stageIndex);
+        await _roadmapService.removeStageFromRoadmap(roadmapId, stageIndex);
+
         notifyListeners();
       }
     } catch (e) {
+      
       throw Exception('Failed to remove stage: $e');
     }
   }
 
   // Update a stage in a specific roadmap, both locally and in the backend
-  void updateStageInRoadmap(String roadmapTitle, int stageIndex, RoadmapStage updatedStage) async {
+  void updateStageInRoadmap(String roadmapId, int stageIndex, RoadmapStage updatedStage) async {
     try {
-      final roadmapIndex = _roadmaps.indexWhere((r) => r.title == roadmapTitle);
+      final roadmapIndex = _roadmaps.indexWhere((r) => r.id == roadmapId);
       if (roadmapIndex != -1) {
         _roadmaps[roadmapIndex].stages[stageIndex] = updatedStage;
-        await _roadmapService.updateStageInRoadmap(roadmapTitle, stageIndex, updatedStage);
+        await _roadmapService.updateStageInRoadmap(roadmapId, stageIndex, updatedStage);
         notifyListeners();
       }
     } catch (e) {

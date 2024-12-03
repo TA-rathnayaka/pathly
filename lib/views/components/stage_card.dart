@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:youtube_player_flutter/youtube_player_flutter.dart'; // Import youtube_player_flutter
+import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class StageCard extends StatefulWidget {
@@ -13,14 +13,15 @@ class StageCard extends StatefulWidget {
   final Color iconColor;
   final String? resourceUrl;
 
-  const StageCard({super.key, 
+  const StageCard({
+    super.key,
     required this.icon,
     required this.title,
     required this.onEdit,
     required this.onDelete,
     this.description,
     this.resourceUrl,
-    this.iconSize = 24.0,
+    this.iconSize = 32.0,
     required this.iconBackgroundColor,
     required this.iconColor,
   });
@@ -32,10 +33,12 @@ class StageCard extends StatefulWidget {
 class _StageCardState extends State<StageCard> {
   late YoutubePlayerController _youtubePlayerController;
 
+  final TextEditingController _taskController = TextEditingController();
+  final TextEditingController _resourceController = TextEditingController();
+
   @override
   void initState() {
     super.initState();
-    // Initialize YouTube Player Controller only if resourceUrl is available
     if (widget.resourceUrl != null && widget.resourceUrl!.contains('youtube.com')) {
       final videoId = _extractYouTubeId(widget.resourceUrl!);
       _youtubePlayerController = YoutubePlayerController(
@@ -60,50 +63,75 @@ class _StageCardState extends State<StageCard> {
     final subtitleColor = isDarkMode ? Colors.white70 : Colors.black54;
 
     return GestureDetector(
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(15),
-        child: ListTile(
-          contentPadding: const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
-          tileColor: isDarkMode ? const Color(0xFF2A2A2A) : Colors.white,
-          leading: Container(
-            padding: const EdgeInsets.all(8),
-            decoration: BoxDecoration(
-              color: widget.iconBackgroundColor,
-              shape: BoxShape.circle,
+      onTap: () {
+        // Show bottom sheet when tapped
+        _showBottomSheet(context);
+      },
+      child: Container(
+        padding: const EdgeInsets.all(16.0),
+        constraints: const BoxConstraints(
+          minHeight: 200.0, // Set minimum height to make the card taller
+        ),
+        decoration: BoxDecoration(
+          color: isDarkMode ? const Color(0xFF2A2A2A) : Colors.white,
+          borderRadius: BorderRadius.circular(16.0),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Icon Section
+            Row(
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(8.0),
+                  decoration: BoxDecoration(
+                    color: widget.iconBackgroundColor,
+                    shape: BoxShape.circle,
+                  ),
+                  child: Icon(
+                    widget.icon,
+                    size: widget.iconSize,
+                    color: widget.iconColor,
+                  ),
+                ),
+                const Spacer(),
+                // Edit and Delete Buttons
+                IconButton(
+                  icon: const Icon(Icons.edit, color: Colors.grey),
+                  onPressed: widget.onEdit,
+                ),
+                IconButton(
+                  icon: const Icon(Icons.delete, color: Colors.grey),
+                  onPressed: widget.onDelete,
+                ),
+              ],
             ),
-            child: Icon(
-              widget.icon,
-              color: widget.iconColor,
-              size: widget.iconSize,
+            const SizedBox(height: 16.0),
+            // Title
+            Text(
+              widget.title,
+              style: TextStyle(
+                fontSize: 18.0,
+                fontWeight: FontWeight.bold,
+                color: textColor,
+              ),
             ),
-          ),
-          title: Text(
-            widget.title,
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: textColor),
-            overflow: TextOverflow.ellipsis,
-            maxLines: 1,
-          ),
-          subtitle: widget.description != null
-              ? Text(
-            widget.description!,
-            style: TextStyle(fontSize: 12, color: subtitleColor),
-            overflow: TextOverflow.ellipsis,
-            maxLines: 2,
-          )
-              : null,
-          trailing: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              IconButton(
-                icon: const Icon(Icons.edit, color: Colors.black54),
-                onPressed: widget.onEdit,
+            const SizedBox(height: 8.0),
+            // Description
+            if (widget.description != null)
+              Text(
+                widget.description!,
+                style: TextStyle(
+                  fontSize: 14.0,
+                  color: subtitleColor,
+                ),
               ),
-              IconButton(
-                icon: const Icon(Icons.delete, color: Colors.black54),
-                onPressed: widget.onDelete,
-              ),
-            ],
-          ),
+            const SizedBox(height: 16.0),
+            // Resource Section
+            Expanded(
+              child: _buildResourceWidget(),
+            ),
+          ],
         ),
       ),
     );
@@ -113,7 +141,9 @@ class _StageCardState extends State<StageCard> {
     if (widget.resourceUrl != null && widget.resourceUrl!.isNotEmpty) {
       if (widget.resourceUrl!.contains('youtube.com') || widget.resourceUrl!.contains('youtu.be')) {
         return _buildYouTubePlayer(widget.resourceUrl!);
-      } else if (widget.resourceUrl!.contains('.jpg') || widget.resourceUrl!.contains('.png') || widget.resourceUrl!.contains('.jpeg')) {
+      } else if (widget.resourceUrl!.endsWith('.jpg') ||
+          widget.resourceUrl!.endsWith('.png') ||
+          widget.resourceUrl!.endsWith('.jpeg')) {
         return Image.network(widget.resourceUrl!);
       } else if (widget.resourceUrl!.startsWith('http')) {
         return GestureDetector(
@@ -129,7 +159,6 @@ class _StageCardState extends State<StageCard> {
   }
 
   Widget _buildYouTubePlayer(String url) {
-    final videoId = _extractYouTubeId(url);
     return YoutubePlayer(
       controller: _youtubePlayerController,
       showVideoProgressIndicator: true,
@@ -144,9 +173,60 @@ class _StageCardState extends State<StageCard> {
 
   void _launchURL(String url) async {
     if (await canLaunch(url)) {
-      await launchUrl(Uri.parse(url));  // Updated launch function for url_launcher
+      await launchUrl(Uri.parse(url));
     } else {
       throw 'Could not launch $url';
     }
+  }
+
+  void _showBottomSheet(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) {
+        return Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                'Add Task and Resource URL',
+                style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 20),
+              // Task input field
+              TextField(
+                controller: _taskController,
+                decoration: const InputDecoration(
+                  labelText: 'Task',
+                  border: OutlineInputBorder(),
+                ),
+              ),
+              const SizedBox(height: 20),
+              // Resource URL input field
+              TextField(
+                controller: _resourceController,
+                decoration: const InputDecoration(
+                  labelText: 'Resource URL',
+                  border: OutlineInputBorder(),
+                ),
+              ),
+              const SizedBox(height: 20),
+              ElevatedButton(
+                onPressed: () {
+                  // Add task and resource URL logic here
+                  final task = _taskController.text;
+                  final resourceUrl = _resourceController.text;
+                  // You can now use these values outside the widget
+                  print('Task: $task');
+                  print('Resource URL: $resourceUrl');
+                  Navigator.pop(context);
+                },
+                child: const Text('Add'),
+              ),
+            ],
+          ),
+        );
+      },
+    );
   }
 }
