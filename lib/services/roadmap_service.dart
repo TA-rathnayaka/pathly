@@ -2,11 +2,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:pathly/models/roadmap.dart';
 import 'package:pathly/models/roadmap_stage.dart';
+import 'package:pathly/models/sub_task.dart';
 
 class RoadmapService {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-  // Fetch all roadmaps from Firestore
+// Fetch all roadmaps from Firestore
   Future<List<Roadmap>> getRoadmaps() async {
     try {
       final snapshot = await _firestore.collection('roadmaps').get();
@@ -24,13 +25,21 @@ class RoadmapService {
           ),
           imageUrl: doc['imageUrl'] ?? '',
           stages: stagesData
-              ?.map((stage) => RoadmapStage(
-            title: stage['title'] ?? 'Untitled Stage',
-            description: stage['description'] ?? '',
-            resourceUrl: stage['resourceUrl'] ?? '', // Add resourceUrl
-          ))
-              .toList() ??
-              [],
+              ?.map((stage) {
+            // Extract subtasks from each stage
+            var subtasksData = (stage['subtasks'] as List?)?.cast<Map<String, dynamic>>();
+
+            // Map each stage and its subtasks
+            return RoadmapStage(
+              title: stage['title'] ?? 'Untitled Stage',
+              description: stage['description'] ?? '',
+              subtasks: subtasksData?.map((subtask) => Subtask(
+                subtask: subtask['subtaskString'] ?? '', // Add subtaskString
+                resourceUrl: subtask['resourceUrl'] ?? '', // Add resourceUrl
+              )).toList() ?? [], // If no subtasks, default to an empty list
+            );
+          })
+              .toList() ?? [],
           uid: doc['uid'] ?? '', // Add the UID field here
         );
       }).toList();
@@ -62,13 +71,21 @@ class RoadmapService {
           imageUrl: data['imageUrl'] ?? '',
           uid: data['uid'] ?? '',
           stages: stagesData
-              ?.map((stage) => RoadmapStage(
-            title: stage['title'] ?? 'Untitled Stage',
-            description: stage['description'] ?? '',
-            resourceUrl: stage['resourceUrl'] ?? '',
-          ))
-              .toList() ??
-              [],
+              ?.map((stage) {
+            // Extract the subtasks from each stage
+            var subtasksData = (stage['subtasks'] as List?)?.cast<Map<String, dynamic>>();
+
+            // Map each stage and its subtasks
+            return RoadmapStage(
+              title: stage['title'] ?? 'Untitled Stage',
+              description: stage['description'] ?? '',
+              subtasks: subtasksData?.map((subtask) => Subtask(
+                subtask: subtask['subtaskString'] ?? '', // Add subtaskString
+                resourceUrl: subtask['resourceUrl'] ?? '', // Add resourceUrl
+              )).toList() ?? [], // If no subtasks, default to an empty list
+            );
+          })
+              .toList() ?? [],
         );
       }).toList();
     } catch (e) {
@@ -129,15 +146,25 @@ class RoadmapService {
             fontFamily: 'MaterialIcons',
           ),
           imageUrl: roadmapDoc['imageUrl'] ?? '',
+          uid: roadmapDoc['uid'] ?? '',
           stages: stagesData
-              ?.map((stage) => RoadmapStage(
-            title: stage['title'] ?? 'Untitled Stage',
-            description: stage['description'] ?? '',
-            resourceUrl: stage['resourceUrl'] ?? '', // Add resourceUrl
-          ))
-              .toList() ??
-              [],
-          uid: roadmapDoc['uid'] ?? '', // Add the UID field here
+              ?.map((stage) {
+            // Extract subtasks from each stage
+            var subtasksData = (stage['subtasks'] as List?)?.cast<Map<String, dynamic>>();
+
+            // Map each stage with its subtasks
+            return RoadmapStage(
+              title: stage['title'] ?? 'Untitled Stage',
+              description: stage['description'] ?? '',
+              subtasks: subtasksData?.map((subtask) {
+                return Subtask(
+                  subtask: subtask['subtaskString'] ?? '', // Extract subtaskString
+                  resourceUrl: subtask['resourceUrl'] ?? '',   // Extract resourceUrl
+                );
+              }).toList() ?? [], // If no subtasks, default to an empty list
+            );
+          })
+              .toList() ?? [],
         );
       } else {
         throw Exception('Roadmap with ID $roadmapId not found');
@@ -179,10 +206,17 @@ class RoadmapService {
 
       if (roadmapDoc.exists) {
         final stages = List<Map<String, dynamic>>.from(roadmapDoc['stages']);
+
+        // Add the new stage with an empty list of subtasks by default
         stages.add({
           'title': stage.title,
           'description': stage.description,
-          'resourceUrl': stage.resourceUrl, // Add resourceUrl
+          'subtasks': stage.subtasks.map((subtask) {
+            return {
+              'subtask': subtask.subtask,
+              'resourceUrl': subtask.resourceUrl,
+            };
+          }).toList(),
         });
 
         await roadmapDocRef.update({'stages': stages});
@@ -193,7 +227,6 @@ class RoadmapService {
       throw Exception('Failed to add stage: $e');
     }
   }
-
   // Remove a stage from a specific roadmap using the roadmapId
   Future<void> removeStageFromRoadmap(String roadmapId, int stageIndex) async {
     try {
@@ -225,13 +258,22 @@ class RoadmapService {
 
       if (roadmapDoc.exists) {
         final stages = List<Map<String, dynamic>>.from(roadmapDoc['stages']);
+
+        // Check if the stage index is valid
         if (stageIndex < stages.length) {
+          // Update the stage at the given index
           stages[stageIndex] = {
             'title': updatedStage.title,
             'description': updatedStage.description,
-            'resourceUrl': updatedStage.resourceUrl, // Update resourceUrl
+            'subtasks': updatedStage.subtasks.map((subtask) {
+              return {
+                'subtask': subtask.subtask,
+                'resourceUrl': subtask.resourceUrl,
+              };
+            }).toList(), // Update subtasks
           };
 
+          // Update the roadmap document
           await roadmapDocRef.update({'stages': stages});
         } else {
           throw Exception('Stage index out of bounds');

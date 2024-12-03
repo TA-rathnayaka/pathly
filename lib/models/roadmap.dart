@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pathly/models/roadmap_stage.dart';
 
+
 class Roadmap {
   String id; // Unique identifier for the roadmap
   String title; // Title of the roadmap
