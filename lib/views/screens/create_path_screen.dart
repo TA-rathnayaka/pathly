@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:pathly/views/screens/stages_screen.dart';
 import 'package:provider/provider.dart';
@@ -6,6 +7,9 @@ import 'package:pathly/providers/create_screen_provider.dart';
 import 'package:pathly/views/components/tech_path_list.dart';
 import 'package:pathly/views/components/tech_card.dart';
 import 'package:pathly/config/app_theme.dart';
+import 'package:pathly/providers/user_provider.dart';
+
+import '../../models/roadmap.dart';
 
 class CreatePathScreen extends StatelessWidget {
   static const String id = '/create_path';
@@ -24,15 +28,23 @@ class CreatePathScreen extends StatelessWidget {
           create: (_) => CreateScreenState(),
           child: Consumer<CreateScreenState>(
             builder: (context, createScreenState, child) {
+              final userProvider = Provider.of<UserProvider>(context, listen: false);
+              final currentUserUid = userProvider.uid;
+
               return Column(
                 children: [
                   const SizedBox(height: 20),
                   Expanded(
                     child: Consumer<RoadmapProvider>(
                       builder: (context, roadmapProvider, child) {
+                        // Filter the roadmaps based on the current user's UID
+                        final filteredRoadmaps = roadmapProvider.roadmaps
+                            .where((roadmap) => roadmap.uid == currentUserUid)
+                            .toList();
+
                         return TechPathList(
-                          groupTitle: 'Roadmap Paths',
-                          techCards: roadmapProvider.roadmaps.map((roadmap) {
+                          groupTitle: 'Your Roadmap Paths',
+                          techCards: filteredRoadmaps.map((roadmap) {
                             return TechCard(
                               icon: roadmap.icon,
                               title: roadmap.title,
@@ -46,56 +58,15 @@ class CreatePathScreen extends StatelessWidget {
                                     builder: (context) =>
                                         StagePage(roadmapId: roadmap.id),
                                   ),
-                                );},
+                                );
+                              },
                               onEdit: () {
-                                // Handle the edit logic here
-                              //   showDialog(
-                              //     context: context,
-                              //     builder: (context) => AlertDialog(
-                              //       title: Text('Edit Roadmap'),
-                              //       content: Column(
-                              //         children: [
-                              //           TextField(
-                              //             controller: TextEditingController(text: roadmap.title),
-                              //             onChanged: (value) {
-                              //               roadmapProvider.setTitle(value);
-                              //             },
-                              //             decoration: InputDecoration(labelText: 'Title'),
-                              //           ),
-                              //           TextField(
-                              //             controller: TextEditingController(text: roadmap.description),
-                              //             onChanged: (value) {
-                              //               roadmapProvider.setDescription(value);
-                              //             },
-                              //             decoration: InputDecoration(labelText: 'Description'),
-                              //           ),
-                              //           // Add more fields if necessary (like icon, imageUrl)
-                              //         ],
-                              //       ),
-                              //       actions: [
-                              //         TextButton(
-                              //           onPressed: () {
-                              //             roadmapProvider.updateRoadmap(
-                              //               roadmap.id,
-                              //               roadmapProvider.title,
-                              //               roadmapProvider.description,
-                              //               roadmapProvider.selectedIcon,
-                              //               roadmapProvider.imageUrl,
-                              //             );
-                              //             Navigator.pop(context);
-                              //           },
-                              //           child: Text('Save'),
-                              //         ),
-                              //         TextButton(
-                              //           onPressed: () {
-                              //             Navigator.pop(context); // Close the dialog
-                              //           },
-                              //           child: Text('Cancel'),
-                              //         ),
-                              //       ],
-                              //     ),
-                              //   );
-                               },
+                                _showCreateRoadmapBottomSheet(
+                                  context,
+                                  isDarkMode,
+                                  roadmap: roadmap,  // Pass the roadmap for editing
+                                );
+                              },
                               onDelete: () {
                                 showDialog(
                                   context: context,
@@ -105,7 +76,6 @@ class CreatePathScreen extends StatelessWidget {
                                     actions: [
                                       TextButton(
                                         onPressed: () {
-                                          // Call the delete function from the provider
                                           roadmapProvider.deleteRoadmap(roadmap.id);
                                           Navigator.pop(context);  // Close the dialog
                                         },
@@ -122,9 +92,7 @@ class CreatePathScreen extends StatelessWidget {
                                 );
                               },
                             );
-
-                          }).toList()
-                            ..cast<TechCard>(),
+                          }).toList(),
                         );
                       },
                     ),
@@ -145,9 +113,21 @@ class CreatePathScreen extends StatelessWidget {
     );
   }
 
-  void _showCreateRoadmapBottomSheet(BuildContext context, bool isDarkMode) {
+  void _showCreateRoadmapBottomSheet(
+      BuildContext context,
+      bool isDarkMode, {
+        Roadmap? roadmap,  // Optional parameter for editing
+      }) {
     final createScreenState = Provider.of<CreateScreenState>(context, listen: false);
     final _formKey = GlobalKey<FormState>();
+
+    if (roadmap != null) {
+      // Populate the form with existing roadmap data for editing
+      createScreenState.setTitle(roadmap.title);
+      createScreenState.setDescription(roadmap.description);
+      createScreenState.setImageUrl(roadmap.imageUrl);
+      createScreenState.setSelectedIcon(roadmap.icon);
+    }
 
     showModalBottomSheet(
       context: context,
@@ -214,18 +194,42 @@ class CreatePathScreen extends StatelessWidget {
                   ElevatedButton(
                     onPressed: () {
                       if (_formKey.currentState!.validate()) {
-                        Provider.of<RoadmapProvider>(context, listen: false).addRoadmap(
-                          createScreenState.title,
-                          createScreenState.description,
-                          createScreenState.selectedIcon!,
-                          createScreenState.imageUrl,
-                        );
-                        createScreenState.resetForm();
-                        Navigator.pop(context); // Close the bottom sheet
+                        final userProvider = Provider.of<UserProvider>(context, listen: false);
+                        final userUid = userProvider.uid;
+                        if (roadmap == null) {
+                          // Add new roadmap
+                          if (userUid != null) {
+                            Provider.of<RoadmapProvider>(context, listen: false).addRoadmap(
+                              createScreenState.title,
+                              createScreenState.description,
+                              createScreenState.selectedIcon!,
+                              createScreenState.imageUrl,
+                              userUid,  // Pass the user UID here
+                            );
+                          } else {
+                            // Handle the case where the userUid is null (e.g., show an error or perform other logic)
+                            print("User UID is null.");
+                          }
+                        } else {
+                          // Edit existing roadmap
+                          if (userUid != null) {
+                            Provider.of<RoadmapProvider>(context, listen: false).updateRoadmap(
+                              roadmap.id,
+                              createScreenState.title,
+                              createScreenState.description,
+                              createScreenState.selectedIcon!,
+                              createScreenState.imageUrl,
+                              userUid,  // Pass the user UID here
+                            );
+                          } else {
+                            // Handle the case where the userUid is null (e.g., show an error or perform other logic)
+                            print("User UID is null.");
+                          }
+                        }
                       }
                     },
                     style: _buildButtonStyle(),
-                    child: const Text('Add Roadmap'),
+                    child: Text(roadmap == null ? 'Add Roadmap' : 'Update Roadmap'),
                   ),
                 ],
               ),
@@ -293,13 +297,15 @@ class CreatePathScreen extends StatelessWidget {
 
   ButtonStyle _buildButtonStyle() {
     return ElevatedButton.styleFrom(
-      backgroundColor: Colors.black,
-      foregroundColor: Colors.white,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12.0),
-        side: const BorderSide(color: Colors.white, width: 1.5),
-      ),
-      padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+        backgroundColor: Colors.black,
+        foregroundColor: Colors.white,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(12.0),
+          side: const BorderSide(color: Colors.white, width: 1.5),
+        ),
+        padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+        minimumSize: const Size.fromHeight(50),
+
     );
   }
 }

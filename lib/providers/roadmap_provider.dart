@@ -51,6 +51,23 @@ class RoadmapProvider extends ChangeNotifier {
     }
   }
 
+  Future<void> fetchRoadmapsByUid(String uid) async {
+    try {
+      // Fetch the roadmaps from the backend for the given UID
+      final fetchedRoadmaps = await _roadmapService.getRoadmapsByUid(uid);
+
+      // Update the local list of roadmaps with the fetched data
+      _roadmaps = fetchedRoadmaps;
+
+      // Notify listeners to update the UI
+      notifyListeners();
+    } catch (e) {
+      throw Exception('Failed to fetch roadmaps for UID $uid: $e');
+    }
+  }
+
+
+
   // Update a specific roadmap (title, description, icon, and imageUrl) both locally and in Firestore
   Future<void> updateRoadmap(
       String roadmapId,
@@ -58,10 +75,11 @@ class RoadmapProvider extends ChangeNotifier {
       String updatedDescription,
       IconData updatedIcon,
       String updatedImageUrl,
+      String updatedUid, // Add uid to the method
       ) async {
     try {
       // Step 1: Update the Firestore document
-      await _roadmapService.updateRoadmap(roadmapId, updatedTitle, updatedDescription, updatedIcon, updatedImageUrl);
+      await _roadmapService.updateRoadmap(roadmapId, updatedTitle, updatedDescription, updatedIcon, updatedImageUrl, updatedUid);
 
       // Step 2: Update the local list
       final roadmapIndex = _roadmaps.indexWhere((r) => r.id == roadmapId);
@@ -72,6 +90,7 @@ class RoadmapProvider extends ChangeNotifier {
           description: updatedDescription,
           icon: updatedIcon,
           imageUrl: updatedImageUrl,
+          uid: updatedUid, // Update uid as well
           stages: _roadmaps[roadmapIndex].stages, // Keep the same stages
         );
         notifyListeners();
@@ -84,11 +103,10 @@ class RoadmapProvider extends ChangeNotifier {
   }
 
 
-  // Add a new roadmap both locally and on the server
-  Future<String> addRoadmap(String title, String description, IconData icon, String imageUrl) async {
+  Future<String> addRoadmap(String title, String description, IconData icon, String imageUrl, String uid) async {
     try {
       // Add the roadmap to Firestore using the service method and get the roadmapId
-      final roadmapId = await _roadmapService.addRoadmap(title, description, icon, imageUrl);
+      final roadmapId = await _roadmapService.addRoadmap(title, description, icon, imageUrl, uid);
 
       // After adding to Firestore, create a new Roadmap object locally with the generated ID
       final newRoadmap = Roadmap(
@@ -97,8 +115,10 @@ class RoadmapProvider extends ChangeNotifier {
         description: description,
         icon: icon,
         imageUrl: imageUrl, // Add imageUrl to the Roadmap object
+        uid: uid, // Pass the uid
         stages: [],  // Initialize with no stages
       );
+      print(newRoadmap);
 
       // Add the new roadmap to the local list
       _roadmaps.add(newRoadmap);

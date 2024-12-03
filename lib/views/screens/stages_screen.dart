@@ -33,6 +33,7 @@ class StagePage extends StatelessWidget {
           (r) => r.id == roadmapId,
       orElse: () => Roadmap(
         id: '',
+        uid: '',
         title: '',
         description: '',
         imageUrl: '',

@@ -31,13 +31,50 @@ class RoadmapService {
           ))
               .toList() ??
               [],
+          uid: doc['uid'] ?? '', // Add the UID field here
         );
       }).toList();
     } catch (e, stackTrace) {
       throw Exception('Failed to load roadmaps: $e\n$stackTrace');
     }
   }
+  Future<List<Roadmap>> getRoadmapsByUid(String uid) async {
+    try {
+      // Query Firestore for roadmaps associated with the given UID
+      final querySnapshot = await _firestore
+          .collection('roadmaps')
+          .where('uid', isEqualTo: uid)
+          .get();
 
+      // Convert Firestore documents into Roadmap objects
+      return querySnapshot.docs.map((doc) {
+        final data = doc.data();
+        var stagesData = (data['stages'] as List?)?.cast<Map<String, dynamic>>();
+
+        return Roadmap(
+          id: doc.id,
+          title: data['title'] ?? 'Untitled',
+          description: data['description'] ?? '',
+          icon: IconData(
+            data['icon'] is int ? data['icon'] : int.tryParse(data['icon'] ?? '0') ?? 0,
+            fontFamily: 'MaterialIcons',
+          ),
+          imageUrl: data['imageUrl'] ?? '',
+          uid: data['uid'] ?? '',
+          stages: stagesData
+              ?.map((stage) => RoadmapStage(
+            title: stage['title'] ?? 'Untitled Stage',
+            description: stage['description'] ?? '',
+            resourceUrl: stage['resourceUrl'] ?? '',
+          ))
+              .toList() ??
+              [],
+        );
+      }).toList();
+    } catch (e) {
+      throw Exception('Failed to fetch roadmaps by UID: $e');
+    }
+  }
 
 
   Future<void> deleteRoadmap(String roadmapId) async {
@@ -51,13 +88,13 @@ class RoadmapService {
     }
   }
 
-
   Future<void> updateRoadmap(
       String roadmapId,
       String updatedTitle,
       String updatedDescription,
       IconData updatedIcon,
       String updatedImageUrl,
+      String updatedUid, // Add UID to update
       ) async {
     try {
       final roadmapDocRef = _firestore.collection('roadmaps').doc(roadmapId);
@@ -67,13 +104,12 @@ class RoadmapService {
         'description': updatedDescription,
         'icon': updatedIcon.codePoint,
         'imageUrl': updatedImageUrl,
+        'uid': updatedUid, // Update the UID
       });
     } catch (e) {
       throw Exception('Failed to update roadmap in Firestore: $e');
     }
   }
-
-
 
   // Fetch a specific roadmap by its ID
   Future<Roadmap> getRoadmapById(String roadmapId) async {
@@ -101,6 +137,7 @@ class RoadmapService {
           ))
               .toList() ??
               [],
+          uid: roadmapDoc['uid'] ?? '', // Add the UID field here
         );
       } else {
         throw Exception('Roadmap with ID $roadmapId not found');
@@ -115,7 +152,8 @@ class RoadmapService {
       String title,
       String description,
       IconData icon,
-      String imageUrl  // Added imageUrl parameter
+      String imageUrl,  // Added imageUrl parameter
+      String uid  // Added UID parameter
       ) async {
     try {
       final docRef = await _firestore.collection('roadmaps').add({
@@ -124,6 +162,7 @@ class RoadmapService {
         'icon': icon.codePoint,
         'stages': [],
         'imageUrl': imageUrl,  // Save the imageUrl in Firestore
+        'uid': uid,  // Save the UID of the user
       });
 
       return docRef.id;

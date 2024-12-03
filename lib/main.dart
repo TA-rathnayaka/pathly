@@ -25,7 +25,7 @@ class PathlyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => RoadmapProvider(RoadmapService())),
         ChangeNotifierProvider(create: (_) => NavigatorProvider()),
         ChangeNotifierProvider(create: (context) => SettingsProvider()),
-        ChangeNotifierProvider(create: (context) => UserProvider()..fetchUserInfo()),
+        ChangeNotifierProvider(create: (context) => UserProvider()),
       ],
       child: Builder(
         builder: (context) {
@@ -47,8 +47,8 @@ class PathlyApp extends StatelessWidget {
               onError: Colors.white,
             ),
           );
-
-          // Use copyWith to modify the theme
+          final userProvider = Provider.of<UserProvider>(context, listen: false);
+          userProvider.fetchUserInfo();
           return MaterialApp(
             title: 'Pathly',
             theme: baseTheme.copyWith(

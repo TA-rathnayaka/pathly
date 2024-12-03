@@ -8,8 +8,9 @@ class Roadmap {
   IconData icon; // Icon associated with the roadmap
   List<RoadmapStage> stages; // Stages associated with the roadmap
   String imageUrl; // URL of the image associated with the roadmap
+  String uid; // Unique identifier for the user who created the roadmap
 
-  // Constructor with all required fields including the imageUrl
+  // Constructor with all required fields including the imageUrl and uid
   Roadmap({
     required this.id,
     required this.title,
@@ -17,5 +18,6 @@ class Roadmap {
     required this.icon,
     List<RoadmapStage>? stages, // Optional parameter for stages
     required this.imageUrl, // Required parameter for imageUrl
+    required this.uid, // Required parameter for uid of the creator
   }) : stages = stages ?? []; // If no stages are provided, initialize with an empty list
 }
