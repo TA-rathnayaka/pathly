@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pathly/views/components/tech_path_list.dart'; // Import for TechPathList component
 import 'package:pathly/views/components/tech_card.dart'; // Import for TechCard component
+import 'package:pathly/views/screens/roadmap_screen.dart';
 import 'package:provider/provider.dart'; // For accessing providers
 import 'package:pathly/models/roadmap.dart'; // Import Roadmap model
 import 'package:pathly/providers/roadmap_provider.dart'; // Import RoadmapProvider
@@ -54,7 +55,12 @@ class TechPathScreen extends StatelessWidget {
                           iconBackgroundColor: Colors.blue.withOpacity(0.1),
                           iconColor: Colors.blue,
                           onTap: () {
-                            // Handle tap on roadmap (navigate or show details)
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => RoadmapScreen(roadmapKey: 'frontend'),
+                              ),
+                            );
                           },
                         );
                       }).toList(),
