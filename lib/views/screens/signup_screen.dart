@@ -63,15 +63,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           size: 80, color: Color(0xFF9FE870)),
                       SizedBox(height: 24),
                       Text(
-                        'Create Your Pathly Account',
+                        'Eureka.',
                         style: TextStyle(
-                            fontSize: 28,
+                            fontSize: 50,
                             fontWeight: FontWeight.bold,
-                            color: Colors.white),
+                            color: Colors.lightGreenAccent),
                       ),
                       SizedBox(height: 12),
                       Text(
-                        'Sign up to access personalized roadmaps, updates, and resources for your tech journey.',
+                        'Sign up to access personalized roadmaps for your tech journey.',
                         textAlign: TextAlign.center,
                         style:
                             TextStyle(fontSize: 16, color: Color(0xFFCCCCCC)),

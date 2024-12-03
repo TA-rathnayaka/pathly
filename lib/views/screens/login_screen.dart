@@ -59,12 +59,12 @@ class _LoginScreenState extends State<LoginScreen> {
                       Icon(Icons.alt_route_rounded, size: 80, color: Color(0xFF9FE870)),
                       SizedBox(height: 24),
                       Text(
-                        'Navigate Your Tech Career',
-                        style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold, color: Colors.white),
+                        'Eureka.',
+                        style: TextStyle(fontSize: 50, fontWeight: FontWeight.bold, color: Colors.lightGreenAccent),
                       ),
                       SizedBox(height: 12),
                       Text(
-                        'Discover personalized roadmaps to guide your journey in tech',
+                        'Discover personalized roadmaps to guide your tech journey  ',
                         textAlign: TextAlign.center,
                         style: TextStyle(fontSize: 16, color: Color(0xFFCCCCCC)),
                       ),

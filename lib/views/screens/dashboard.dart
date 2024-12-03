@@ -285,7 +285,7 @@ class _DashboardState extends State<Dashboard> {
                 // Header Section with a black background and the lightbulb icon on the right side
                 Container(
                   width: double.infinity,
-                  height: 280,
+                  height: 250,
                   decoration: const BoxDecoration(
                     borderRadius: BorderRadius.only(
                       bottomLeft: Radius.circular(40),
@@ -329,14 +329,14 @@ class _DashboardState extends State<Dashboard> {
                             ),
                             const SizedBox(height: 16),
                             Text(
-                              "Select your Destination...",
+                              "",
                               style: AppTextStyles.subheadingDark.copyWith(
                                 color: Colors.white,
                                 fontWeight: FontWeight.normal,
                                 shadows: [
                                   Shadow(
                                     blurRadius: 10.0,
-                                    color: Colors.black.withOpacity(0.5),
+                                    color: Colors.lightGreenAccent.withOpacity(0.5),
                                     offset: const Offset(0, 2),
                                   ),
                                 ],
@@ -350,8 +350,8 @@ class _DashboardState extends State<Dashboard> {
                         top: 50, // Position the bulb vertically from the top
                         child: Icon(
                           Icons.lightbulb_outline, // Lightbulb icon
-                          color: Colors.white,
-                          size: 200, // Increase the size of the icon
+                          color: Colors.lightGreenAccent,
+                          size: 150, // Increase the size of the icon
                         ),
                       ),
                     ],

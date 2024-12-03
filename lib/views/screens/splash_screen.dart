@@ -178,7 +178,7 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
                   width: 60, // Set width for the circular button
                   height: 60, // Set height for the circular button
                   decoration: BoxDecoration(
-                    color: Colors.white,  // Button background color set to white
+                    color: Colors.lightGreenAccent,  // Button background color set to white
                     shape: BoxShape.circle, // Make it circular
                     boxShadow: [
                       BoxShadow(

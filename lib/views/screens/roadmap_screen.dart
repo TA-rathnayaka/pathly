@@ -31,7 +31,7 @@ class _RoadmapScreenState extends State<RoadmapScreen> {
       backgroundColor: isDarkMode ? Color(0xFF121212) : Colors.grey[100],
       appBar: AppBar(
         title: Text('${widget.roadmapKey} Roadmap'),
-        backgroundColor: Colors.transparent,
+        backgroundColor: Colors.black,
         elevation: 0,
         centerTitle: true,
       ),

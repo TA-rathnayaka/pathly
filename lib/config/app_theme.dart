@@ -27,8 +27,8 @@ class AppTextStyles {
 
 
   static TextStyle pathly = GoogleFonts.roboto(
-    color: Colors.white,
-    fontSize: 100,
+    color: Colors.lightGreenAccent,
+    fontSize: 60,
     fontWeight: FontWeight.w700,
   );
 
