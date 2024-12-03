@@ -39,7 +39,7 @@ class BottomNavbar extends StatelessWidget {
           ),
           BottomNavigationBarItem(
             icon: Icon(
-              Icons.person_outline, // Appropriate icon for Following
+              Icons.person, // Appropriate icon for Following
               color: currentIndex == 1 ? selectedItemColor : unselectedItemColor,
             ),
             label: 'Following',

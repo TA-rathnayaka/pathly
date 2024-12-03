@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 // Define common colors for both light and dark modes
 class AppColors {
@@ -18,64 +19,72 @@ class AppColors {
 
 // Define text styles for consistent typography
 class AppTextStyles {
-  static TextStyle headingLight = const TextStyle(
+  static TextStyle headingLight = GoogleFonts.roboto(
     color: Colors.black,
     fontSize: 32,
     fontWeight: FontWeight.w700,
   );
 
-  static TextStyle headingDark = const TextStyle(
+
+  static TextStyle pathly = GoogleFonts.roboto(
+    color: Colors.white,
+    fontSize: 100,
+    fontWeight: FontWeight.w700,
+  );
+
+
+
+  static TextStyle headingDark = GoogleFonts.roboto(
     color: Colors.white,
     fontSize: 32,
     fontWeight: FontWeight.w700,
   );
 
-  static TextStyle subheadingLight = const TextStyle(
+  static TextStyle subheadingLight = GoogleFonts.roboto(
     color: Colors.black38,
     fontSize: 18,
     fontWeight: FontWeight.bold,
   );
 
-  static TextStyle subheadingDark = TextStyle(
+  static TextStyle subheadingDark = GoogleFonts.roboto(
     color: Colors.grey[300]!,
     fontSize: 18,
     fontWeight: FontWeight.bold,
   );
 
-  static TextStyle searchHintLight = const TextStyle(
+  static TextStyle searchHintLight = GoogleFonts.roboto(
     fontSize: 18,
     color: Colors.black45,
     fontWeight: FontWeight.w600,
   );
 
-  static TextStyle searchHintDark = const TextStyle(
+  static TextStyle searchHintDark = GoogleFonts.roboto(
     fontSize: 18,
     color: Colors.white70,
     fontWeight: FontWeight.w600,
   );
 
-  static TextStyle categoryTitleLight = const TextStyle(
+  static TextStyle categoryTitleLight = GoogleFonts.roboto(
     color: Colors.black,
     fontSize: 18,
     fontWeight: FontWeight.w700,
   );
 
-  static TextStyle categoryTitleDark = const TextStyle(
+  static TextStyle categoryTitleDark = GoogleFonts.roboto(
     color: Colors.white,
     fontSize: 18,
     fontWeight: FontWeight.w700,
   );
 
-  static TextStyle seeAllLight = TextStyle(
+  static TextStyle seeAllLight = GoogleFonts.roboto(
     color: Colors.grey[500]!,
     fontSize: 14,
     fontWeight: FontWeight.bold,
   );
 
-  static TextStyle seeAllDark = TextStyle(
+  static TextStyle seeAllDark = GoogleFonts.roboto(
     color: Colors.grey[400]!,
     fontSize: 14,
     fontWeight: FontWeight.bold,
   );
-
 }

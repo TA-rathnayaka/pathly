@@ -17,7 +17,11 @@ class CreatePathScreen extends StatelessWidget {
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Create Roadmap')),
+      appBar: AppBar(
+        title: const Text('Create Roadmap'),
+        backgroundColor: Colors.black, // Set the background color to black
+      ),
+
       body: Padding(
         padding: EdgeInsets.all(16.0),
         child: ChangeNotifierProvider(

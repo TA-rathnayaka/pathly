@@ -14,7 +14,11 @@ class TechPathScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     // Listen to the UserProvider to get enrolled roadmaps
     return Scaffold(
-      appBar: AppBar(title: const Text("Tech Path Progress")),
+      appBar: AppBar(
+        title: const Text('Your Tech Paths'),
+        backgroundColor: Colors.black, // Set the background color to black
+      ),
+
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: Consumer<UserProvider>(
