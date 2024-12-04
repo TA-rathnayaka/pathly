@@ -6,6 +6,7 @@ import 'package:pathly/models/roadmap.dart';
 import 'package:pathly/config/app_theme.dart';
 import 'package:pathly/views/components/stage_card.dart';
 import 'package:pathly/views/components/stage_card_list.dart';
+import 'package:pathly/views/screens/tasks_screen.dart';
 
 class StagePage extends StatelessWidget {
   final String roadmapId;
@@ -207,6 +208,14 @@ class StagePage extends StatelessWidget {
               groupTitle: 'Stages',
               stageCards: roadmap.stages.map((stage) {
                 return StageCard(
+                  onTap: (){
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => SubtaskScreen(),
+                      ),
+                    );
+                  },
                   icon: Icons.check_circle,
                   title: stage.title,
                   description: stage.description,

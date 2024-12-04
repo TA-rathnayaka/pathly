@@ -6,6 +6,7 @@ class StageCard extends StatefulWidget {
   final IconData icon;
   final String title;
   final String? description;
+  final VoidCallback onTap;
   final VoidCallback onEdit;
   final VoidCallback onDelete;
   final double iconSize;
@@ -15,6 +16,7 @@ class StageCard extends StatefulWidget {
 
   const StageCard({
     super.key,
+    required this.onTap,
     required this.icon,
     required this.title,
     required this.onEdit,
@@ -63,10 +65,7 @@ class _StageCardState extends State<StageCard> {
     final subtitleColor = isDarkMode ? Colors.white70 : Colors.black54;
 
     return GestureDetector(
-      onTap: () {
-        // Show bottom sheet when tapped
-        _showBottomSheet(context);
-      },
+      onTap: widget.onTap,
       child: Container(
         padding: const EdgeInsets.all(16.0),
         constraints: const BoxConstraints(
@@ -179,54 +178,4 @@ class _StageCardState extends State<StageCard> {
     }
   }
 
-  void _showBottomSheet(BuildContext context) {
-    showModalBottomSheet(
-      context: context,
-      builder: (BuildContext context) {
-        return Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(
-                'Add Task and Resource URL',
-                style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-              ),
-              const SizedBox(height: 20),
-              // Task input field
-              TextField(
-                controller: _taskController,
-                decoration: const InputDecoration(
-                  labelText: 'Task',
-                  border: OutlineInputBorder(),
-                ),
-              ),
-              const SizedBox(height: 20),
-              // Resource URL input field
-              TextField(
-                controller: _resourceController,
-                decoration: const InputDecoration(
-                  labelText: 'Resource URL',
-                  border: OutlineInputBorder(),
-                ),
-              ),
-              const SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: () {
-                  // Add task and resource URL logic here
-                  final task = _taskController.text;
-                  final resourceUrl = _resourceController.text;
-                  // You can now use these values outside the widget
-                  print('Task: $task');
-                  print('Resource URL: $resourceUrl');
-                  Navigator.pop(context);
-                },
-                child: const Text('Add'),
-              ),
-            ],
-          ),
-        );
-      },
-    );
-  }
 }
